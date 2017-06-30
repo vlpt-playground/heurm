@@ -64,6 +64,10 @@ exports.get = async (ctx) => {
     try {
         book = await Book.findById(id).exec();
     } catch (e) {
+        if(e.name === 'CastError') {
+            ctx.status = 400;
+            return;
+        }
         return ctx.throw(500, e);
     }
 
