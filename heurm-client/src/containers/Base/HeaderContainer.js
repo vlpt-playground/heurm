@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Header from 'components/Base/Header';
+import Header, { LoginButton } from 'components/Base/Header';
 
 class HeaderContainer extends Component {
     render() {
         return (
             <Header>
-                Hi
+                <LoginButton/>
             </Header>
         );
     }
