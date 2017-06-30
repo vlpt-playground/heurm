@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink } from 'components/Auth';
+import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink, AuthError } from 'components/Auth';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as authActions from 'redux/modules/auth';
@@ -9,7 +9,7 @@ import {isEmail, isLength, isAlphanumeric} from 'validator';
 
 class Register extends Component {
 
-setError = (message) => {
+    setError = (message) => {
         const { AuthActions } = this.props;
         AuthActions.setError({
             form: 'register',
@@ -74,6 +74,7 @@ setError = (message) => {
     }
 
     render() {
+        const { error } = this.props;
         const { email, username, password, passwordConfirm } = this.props.form.toJS();
         const { handleChange } = this;
 
@@ -109,6 +110,9 @@ setError = (message) => {
                     value={passwordConfirm}
                     onChange={handleChange}
                 />
+                {
+                    error && <AuthError>{error}</AuthError>
+                }
                 <AuthButton>회원가입</AuthButton>
                 <RightAlignedLink to="/auth/login">로그인</RightAlignedLink>
             </AuthContent>
@@ -118,7 +122,8 @@ setError = (message) => {
 
 export default connect(
     (state) => ({
-        form: state.auth.getIn(['register', 'form'])
+        form: state.auth.getIn(['register', 'form']),
+        error: state.auth.getIn(['register', 'error'])
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch)
