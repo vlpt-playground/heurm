@@ -7,6 +7,7 @@
     "open-color": "^1.5.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
+    "react-hot-loader": "next",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redux": "^3.7.1",
