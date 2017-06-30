@@ -13,5 +13,9 @@
     "eslint-plugin-node": "^5.1.0",
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1"
+  },
+  "scripts":{
+    "start": "node src",
+    "start:dev": "nodemon --watch src/ src/index.js"
   }
 }
