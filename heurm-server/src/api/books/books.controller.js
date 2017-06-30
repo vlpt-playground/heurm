@@ -145,6 +145,26 @@ exports.replace = async (ctx) => {
     ctx.body = book;
 };
 
-exports.update = (ctx) => {
-    ctx.body = 'updated';
+exports.update = async (ctx) => {
+    const { id } = ctx.params; // URL 파라미터에서 id 값을 읽어옵니다.
+
+    if(!ObjectId.isValid(id)) {
+        ctx.status = 400; // Bad Request
+        return;
+    }
+
+    let book;
+
+    try {
+        // 아이디로 찾아서 업데이트를 합니다.
+        // 파라미터는 (아이디, 변경 할 값, 설정) 순 입니다.
+        book = await Book.findByIdAndUpdate(id, ctx.request.body, {
+            // upsert 의 기본값은 false 입니다.
+            new: true // 이 값을 넣어줘야 반환하는 값이 업데이트된 데이터입니다. 이 값이 없으면 ctx.body = book 했을때 업데이트 전의 데이터를 보여줍니다.
+        });
+    } catch (e) {
+        return ctx.throw(500, e);
+    }
+
+    ctx.body = book;
 };
