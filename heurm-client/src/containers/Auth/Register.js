@@ -50,6 +50,34 @@ class Register extends Component {
         }
     }
 
+    checkEmailExists = async (email) => {
+        const { AuthActions } = this.props;
+        try {
+            await AuthActions.checkEmailExists(email);
+            if(this.props.exists.get('email')) {
+                this.setError('이미 존재하는 이메일입니다.');
+            } else {
+                this.setError(null);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
+    checkUsernameExists = async (username) => {
+        const { AuthActions } = this.props;
+        try {
+            await AuthActions.checkUsernameExists(username);
+            if(this.props.exists.get('username')) {
+                this.setError('이미 존재하는 아이디입니다.');
+            } else {
+                this.setError(null);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
 
     handleChange = (e) => {
         const { AuthActions } = this.props;
@@ -65,7 +93,8 @@ class Register extends Component {
         const validation = this.validate[name](value);
         if(name.indexOf('password') > -1 || !validation) return; // 비밀번호 검증이거나, 검증 실패하면 여기서 마침
 
-        // TODO: 이메일, 아이디 중복 확인
+        const check = name === 'email' ? this.checkEmailExists : this.checkUsernameExists; // name 에 따라 이메일체크할지 아이디 체크 할지 결정
+        check(value);
     }
 
     componentWillUnmount() {
@@ -123,7 +152,8 @@ class Register extends Component {
 export default connect(
     (state) => ({
         form: state.auth.getIn(['register', 'form']),
-        error: state.auth.getIn(['register', 'error'])
+        error: state.auth.getIn(['register', 'error']),
+        exists: state.auth.getIn(['register', 'exists'])
     }),
     (dispatch) => ({
         AuthActions: bindActionCreators(authActions, dispatch)
