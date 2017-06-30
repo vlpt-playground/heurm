@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "autoprefixer": "7.1.1",
+    "axios": "^0.16.2",
     "babel-core": "6.25.0",
     "babel-eslint": "7.2.3",
     "babel-jest": "20.0.3",
@@ -41,6 +42,7 @@
     "react-router-dom": "^4.1.1",
     "redux": "^3.7.1",
     "redux-actions": "^2.0.3",
+    "redux-pender": "^1.0.23",
     "style-loader": "0.18.2",
     "styled-components": "^2.1.0",
     "sw-precache-webpack-plugin": "0.11.3",
@@ -95,5 +97,6 @@
   },
   "eslintConfig": {
     "extends": "react-app"
-  }
+  },
+  "proxy": "http://localhost:4000"
 }
