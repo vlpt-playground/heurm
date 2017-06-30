@@ -28,6 +28,7 @@
     "html-webpack-plugin": "2.29.0",
     "immutable": "^3.8.1",
     "jest": "20.0.4",
+    "lodash": "^4.17.4",
     "object-assign": "4.1.1",
     "open-color": "^1.5.1",
     "postcss-flexbugs-fixes": "3.0.0",

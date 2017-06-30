@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as authActions from 'redux/modules/auth';
 import {isEmail, isLength, isAlphanumeric} from 'validator';
-
+import debounce from 'lodash/debounce';
 
 
 class Register extends Component {
@@ -50,7 +50,7 @@ class Register extends Component {
         }
     }
 
-    checkEmailExists = async (email) => {
+    checkEmailExists = debounce(async (email) => {
         const { AuthActions } = this.props;
         try {
             await AuthActions.checkEmailExists(email);
@@ -62,9 +62,9 @@ class Register extends Component {
         } catch (e) {
             console.log(e);
         }
-    }
+    }, 300)
 
-    checkUsernameExists = async (username) => {
+    checkUsernameExists = debounce(async (username) => {
         const { AuthActions } = this.props;
         try {
             await AuthActions.checkUsernameExists(username);
@@ -76,7 +76,7 @@ class Register extends Component {
         } catch (e) {
             console.log(e);
         }
-    }
+    }, 300)
 
 
     handleChange = (e) => {
