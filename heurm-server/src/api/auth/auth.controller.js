@@ -48,7 +48,36 @@ exports.localRegister = async (ctx) => {
 
 // 로컬 로그인
 exports.localLogin = async (ctx) => {
-    ctx.body = 'login';
+    // 데이터 검증
+    const schema = Joi.object().keys({
+        email: Joi.string().email().required(),
+        password: Joi.string().required()
+    });
+
+    const result = Joi.validate(ctx.request.body, schema);
+
+    if(result.error) {
+        ctx.status = 400; // Bad Request
+        return;
+    }
+
+    const { email, password } = ctx.request.body; 
+
+    let account = null;
+    try {
+        // 이메일로 계정 찾기
+        account = await Account.findByEmail(email);
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+
+    if(!account || !account.validatePassword(password)) {
+    // 유저가 존재하지 않거나 || 비밀번호가 일치하지 않으면
+        ctx.status = 403; // Forbidden
+        return;
+    }
+
+    ctx.body = account.profile;
 };
 
 // 이메일 / 아이디 존재유무 확인
