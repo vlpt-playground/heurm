@@ -56,6 +56,27 @@ exports.create = async (ctx) => {
     ctx.body = book;
 };
 
+exports.get = async (ctx) => {
+    const { id } = ctx.params; // URL 파라미터에서 id 값을 읽어옵니다.
+
+    let book;
+
+    try {
+        book = await Book.findById(id).exec();
+    } catch (e) {
+        return ctx.throw(500, e);
+    }
+
+    if(!book) {
+        // 존재하지 않으면
+        ctx.status = 404;
+        ctx.body = { message: 'book not found' };
+        return;
+    }
+
+    ctx.body = book;
+};
+
 exports.delete = (ctx) => {
     ctx.body = 'deleted';
 };
