@@ -114,6 +114,10 @@ exports.exists = async (ctx) => {
 };
 
 // 로그아웃
-exports.logout = async (ctx) => {
-    ctx.body = 'logout';
+exports.logout = (ctx) => {
+    ctx.cookies.set('access_token', null, {
+        maxAge: 0, 
+        httpOnly: true
+    });
+    ctx.status = 204;
 };
