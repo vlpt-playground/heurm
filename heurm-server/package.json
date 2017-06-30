@@ -6,6 +6,7 @@
   "dependencies": {
     "cross-env": "^5.0.1",
     "dotenv": "^4.0.0",
+    "joi": "^10.6.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
