@@ -28,4 +28,44 @@ const Account = new Schema({
     createdAt: { type: Date, default: Date.now }
 });
 
+Account.statics.findByUsername = function(username) {
+    // 객체에 내장되어있는 값을 사용 할 때는 객체명.키 이런식으로 쿼리하면 됩니다
+    return this.findOne({'profile.username': username}).exec();
+};
+
+Account.statics.findByEmail = function(email) {
+    return this.findOne({email}).exec();
+};
+
+Account.statics.findByEmailOrUsername = function({username, email}) {
+    return this.findOne({
+        // $or 연산자를 통해 둘중에 하나를 만족하는 데이터를 찾습니다
+        $or: [
+            { 'profile.username': username },
+            { email }
+        ]
+    }).exec();
+};
+
+
+Account.statics.localRegister = function({ username, email, password }) {
+    // 데이터를 생성 할 때는 new this() 를 사용합니다.
+    const account = new this({
+        profile: {
+            username
+            // thumbnail 값을 설정하지 않으면 기본값으로 설정됩니다.
+        },
+        email,
+        password: hash(password)
+    });
+
+    return account.save();
+};
+
+Account.methods.validatePassword = function(password) {
+    // 함수로 전달받은 password 의 해시값과, 데이터에 담겨있는 해시값과 비교를 합니다.
+    const hashed = hash(password);
+    return this.password === hashed;
+};
+
 module.exports = mongoose.model('Account', Account);
