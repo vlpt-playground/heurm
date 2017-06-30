@@ -121,3 +121,14 @@ exports.logout = (ctx) => {
     });
     ctx.status = 204;
 };
+
+exports.check = (ctx) => {
+    const { user } = ctx.request;
+
+    if(!user) {
+        ctx.status = 403; // Forbidden
+        return;
+    }
+
+    ctx.body = user.profile;
+};
