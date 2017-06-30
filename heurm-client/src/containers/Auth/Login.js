@@ -16,6 +16,11 @@ class Login extends Component {
             form: 'login'
         });
     }
+    
+    componentWillUnmount() {
+        const { AuthActions } = this.props;
+        AuthActions.initializeForm('login')
+    }
 
     render() {
         const { email, password } = this.props.form.toJS(); // form 에서 email 과 password 값을 읽어옴
