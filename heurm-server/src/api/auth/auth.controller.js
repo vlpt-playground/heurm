@@ -82,7 +82,19 @@ exports.localLogin = async (ctx) => {
 
 // 이메일 / 아이디 존재유무 확인
 exports.exists = async (ctx) => {
-    ctx.body = 'exists';
+    const { key, value } = ctx.params;
+    let account = null;
+
+    try {
+        // key 에 따라 findByEmail 혹은 findByUsername 을 실행합니다.
+        account = await (key === 'email' ? Account.findByEmail(value) : Account.findByUsername(value));    
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+
+    ctx.body = {
+        exists: account !== null
+    };
 };
 
 // 로그아웃
