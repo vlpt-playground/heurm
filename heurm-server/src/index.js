@@ -7,6 +7,18 @@ const app = new Koa();
 const router = new Router();
 const api = require('./api');
 
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise; // Node 의 네이티브 Promise 사용
+// mongodb 연결
+mongoose.connect(process.env.MONGO_URI).then(
+    (response) => {
+        console.log('Successfully connected to mongodb');
+    }
+).catch(e => {
+    console.error(e);
+});
+
 const port = process.env.PORT || 4000; // PORT 값이 설정되어있지 않다면 4000 을 사용합니다.
 
 router.use('/api', api.routes()); // api 라우트를 /api 경로 하위 라우트로 설정
