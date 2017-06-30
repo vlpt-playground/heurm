@@ -10,14 +10,16 @@ exports.list = async (ctx) => {
         // 데이터를 조회합니다. 
         // .exec() 를 뒤에 붙여줘야 실제로 데이터베이스에 요청이 됩니다.
         // 반환값은 Promise 이므로 await 을 사용 할 수 있습니다.
-        books = await Book.find().exec();
+        books = await Book.find()
+            .sort({_id: -1}) // _id 의 역순으로 정렬합니다
+            .limit(3) // 3개반 보여지도록 정렬합니다
+            .exec(); // 데이터를 서버에 요청합니다.
     } catch (e) {
         return ctx.throw(500, e);
     }
 
     ctx.body = books;
 };
-
 exports.create = async (ctx) => {
     // request body 에서 값들을 추출합니다
     const { 
