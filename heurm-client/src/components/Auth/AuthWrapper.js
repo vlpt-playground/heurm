@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-import { shadow, transitions } from 'lib/styleUtils';
+import { shadow, transitions, media } from 'lib/styleUtils';
 import { Link } from 'react-router-dom';
 
 
@@ -11,6 +11,20 @@ const Positioner = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
+    ${media.tablet`
+        position: absolute;
+        left: 1rem;
+        right: 1rem;
+        transform: translateY(-50%);
+        @media (max-height: 600px) {
+            transform: none;
+            top: 1rem;
+            margin-bottom: 1rem;
+        }
+    `}
+
+
 `;
 
 // 너비, 그림자 설정
@@ -20,6 +34,9 @@ const ShadowedBox = styled.div`
     ${props=>props.animate && `
         animation: ${transitions.fadeUp} 0.3s ease-in;
         animation-fill-mode: forwards;
+    `}
+    ${media.tablet`
+        width: 100%;
     `}
 `;
 
@@ -45,6 +62,9 @@ const Contents = styled.div`
     background: white;
     padding: 2rem;
     height: auto;
+    ${media.tablet`
+        padding: 1rem;
+    `}
 `;
 
 const AuthWrapper = ({children, animate}) => (
