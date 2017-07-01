@@ -2,11 +2,33 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as baseActions from 'redux/modules/base';
+import * as authActions from 'redux/modules/auth';
 import { AuthWrapper } from 'components/Auth';
 import { Route } from 'react-router-dom';
 import { Login, Register } from 'containers/Auth';
 
 class Auth extends Component {
+
+
+    // 애니메이션 효과 주기
+    animate = () => {
+        const { AuthActions } = this.props;
+        AuthActions.toggleAnimation();
+        setTimeout(AuthActions.toggleAnimation, 300);
+    }
+    
+    componentDidMount() {
+        // 처음 나타날 때 애니메이션 효과
+        this.animate();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if(this.props.location.pathname !== nextProps.location.pathname) {
+            this.animate();
+        }
+    }
+    
+
     // 페이지에 진입 할 때 헤더를 비활성화
     componentWillMount() {
         this.props.BaseActions.setHeaderVisibility(false);
@@ -17,9 +39,13 @@ class Auth extends Component {
         this.props.BaseActions.setHeaderVisibility(true);
     }
 
+    
+
     render() {
+        const { animate } = this.props;
+
         return (
-            <AuthWrapper>
+            <AuthWrapper animate={animate}>
                 <Route path="/auth/login" component={Login}/>
                 <Route path="/auth/register" component={Register}/>
             </AuthWrapper>
@@ -29,9 +55,10 @@ class Auth extends Component {
 
 export default connect(
     (state) => ({
-
+        animate: state.auth.get('animate')
     }),
     (dispatch) => ({
+        AuthActions: bindActionCreators(authActions, dispatch),
         BaseActions: bindActionCreators(baseActions, dispatch)
     })
 )(Auth);

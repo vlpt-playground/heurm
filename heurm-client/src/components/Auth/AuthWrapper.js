@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-import { shadow } from 'lib/styleUtils';
+import { shadow, transitions } from 'lib/styleUtils';
 import { Link } from 'react-router-dom';
+
 
 // 화면의 중앙에 위치시킨다
 const Positioner = styled.div`
@@ -16,6 +17,10 @@ const Positioner = styled.div`
 const ShadowedBox = styled.div`
     width: 500px;
     ${shadow(2)}
+    ${props=>props.animate && `
+        animation: ${transitions.fadeUp} 0.3s ease-in;
+        animation-fill-mode: forwards;
+    `}
 `;
 
 // 로고
@@ -42,9 +47,9 @@ const Contents = styled.div`
     height: auto;
 `;
 
-const AuthWrapper = ({children}) => (
+const AuthWrapper = ({children, animate}) => (
     <Positioner>
-        <ShadowedBox>
+        <ShadowedBox animate={animate}>
             <LogoWrapper>
                 <Logo to="/">HEURM</Logo>
             </LogoWrapper>

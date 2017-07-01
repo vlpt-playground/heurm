@@ -19,6 +19,8 @@ const LOGOUT = 'auth/LOGOUT'; // 로그아웃
 
 const SET_ERROR = 'auth/SET_ERROR'; // 오류 설정
 
+const TOGGLE_ANIMATE = 'auth/TOGGLE_ANIMATE'; // 애니메이션 토글
+
 
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form 
@@ -31,6 +33,8 @@ export const localLogin = createAction(LOCAL_LOGIN, AuthAPI.localLogin); // { em
 export const logout = createAction(LOGOUT, AuthAPI.logout);
 
 export const setError = createAction(SET_ERROR); // { form, message }
+
+export const toggleAnimation = createAction(TOGGLE_ANIMATE);
 
 
 const initialState = Map({
@@ -54,7 +58,8 @@ const initialState = Map({
         }),
         error: null
     }),
-    result: Map({})
+    result: Map({}),
+    animate: false
 });
 
 
@@ -86,5 +91,6 @@ export default handleActions({
     [SET_ERROR]: (state, action) => {
         const { form, message } = action.payload;
         return state.setIn([form, 'error'], message);
-    }
+    },
+    [TOGGLE_ANIMATE]: (state, action) => state.update('animate', value => !value)
 }, initialState);

@@ -30,7 +30,18 @@ export const shadow = (weight) => {
     return shadows[weight];
 };
 
+
 export const transitions = {
+    fadeUp: keyframes`
+        0%{
+            opacity: 0;
+            transform: translateY(30px)
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0px);
+        }
+    `,
     shake: keyframes`
         0% {
             transform: translate(-30px);
