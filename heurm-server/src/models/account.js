@@ -48,6 +48,14 @@ Account.statics.findByEmailOrUsername = function({username, email}) {
     }).exec();
 };
 
+Account.statics.findByProviderId = function(provider, id) {
+    const key = `social.${provider}.id`;
+
+    return this.findOne({
+        [key]: id
+    }).exec();
+};
+
 
 Account.statics.localRegister = function({ username, email, password }) {
     // 데이터를 생성 할 때는 new this() 를 사용합니다.
