@@ -3,6 +3,7 @@ const auth = new Router();
 const authCtrl = require('./auth.controller');
 
 auth.post('/register/local', authCtrl.localRegister);
+auth.post('/register/:provider(facebook|google)', authCtrl.socialLogin);
 
 auth.post('/login/local', authCtrl.localLogin);
 auth.post('/login/:provider(facebook|google)', authCtrl.socialLogin);
