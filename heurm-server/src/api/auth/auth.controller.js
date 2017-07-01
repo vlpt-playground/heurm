@@ -163,7 +163,7 @@ exports.socialLogin = async (ctx) => {
     // 가입했는지 체크
     let account = null;
     try {
-        account = await Account.findByProfileId(provider, profile.id);
+        account = await Account.findByProviderId(provider, profile.id);
     } catch (e) {
         ctx.throw(500, e);
     }
