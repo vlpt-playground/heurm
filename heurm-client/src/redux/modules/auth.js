@@ -4,7 +4,7 @@ import { Map } from 'immutable';
 
 import { pender } from 'redux-pender';
 import * as AuthAPI from 'lib/api/auth';
-
+import social from 'lib/social';
 
 
 const CHANGE_INPUT = 'auth/CHANGE_INPUT'; // input 값 변경
@@ -21,6 +21,8 @@ const SET_ERROR = 'auth/SET_ERROR'; // 오류 설정
 
 const TOGGLE_ANIMATE = 'auth/TOGGLE_ANIMATE'; // 애니메이션 토글
 
+const PROVIDER_LOGIN = 'auth/PROVIDER_LOGIN'; // 페이스북 혹은 구글에 로그인 시도, 액세스 토큰을 받아옴
+
 
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
 export const initializeForm = createAction(INITIALIZE_FORM); // form 
@@ -35,6 +37,9 @@ export const logout = createAction(LOGOUT, AuthAPI.logout);
 export const setError = createAction(SET_ERROR); // { form, message }
 
 export const toggleAnimation = createAction(TOGGLE_ANIMATE);
+
+// 두번째 파라미터는 payload 생성 함수, 세번째 파라미터는 meta 생성함수
+export const providerLogin = createAction(PROVIDER_LOGIN, (provider) => social[provider](), provider => provider);
 
 
 const initialState = Map({
@@ -59,7 +64,12 @@ const initialState = Map({
         error: null
     }),
     result: Map({}),
-    animate: false
+    animate: false,
+    social: Map({
+        accessToken: null,
+        provider: null,
+        registered: null
+    })
 });
 
 
@@ -92,5 +102,12 @@ export default handleActions({
         const { form, message } = action.payload;
         return state.setIn([form, 'error'], message);
     },
-    [TOGGLE_ANIMATE]: (state, action) => state.update('animate', value => !value)
+    [TOGGLE_ANIMATE]: (state, action) => state.update('animate', value => !value),
+    ...pender({
+        type: PROVIDER_LOGIN,
+        onSuccess: (state, action) => {
+            const { payload, meta } = action; // payload: 토큰, meta: 프로바이더 명
+            return state.update('social', social => social.set('accessToken', payload).set('provider', meta));
+        }
+    })
 }, initialState);

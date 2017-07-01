@@ -5240,9 +5240,9 @@ redux-actions@^2.0.3:
     lodash-es "^4.17.4"
     reduce-reducers "^0.1.0"
 
-redux-pender@^1.0.23:
-  version "1.0.23"
-  resolved "https://registry.yarnpkg.com/redux-pender/-/redux-pender-1.0.23.tgz#967267b6001e2a13d7eeef21f92dc4a3deca073b"
+redux-pender@^1.0.24:
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/redux-pender/-/redux-pender-1.0.24.tgz#8d53ee5b34d22cd95dcfdeeab34e7ce02c174a34"
 
 redux@^3.7.1:
   version "3.7.1"
