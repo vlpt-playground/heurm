@@ -63,6 +63,12 @@ const initialState = Map({
         }),
         error: null
     }),
+    socialRegister: Map({
+        form: Map({
+            username: ''
+        }),
+        error: null
+    }),
     result: Map({}),
     animate: false,
     social: Map({

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { AuthContent, InputWithLabel, AuthButton, RightAlignedLink, AuthError, SocialDivider } from 'components/Auth';
-import SocialRegister from './SocialRegister';
+import SocialLogin from './SocialLogin';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as authActions from 'redux/modules/auth';
@@ -184,7 +184,7 @@ class Register extends Component {
                 <AuthButton onClick={handleLocalRegister}>회원가입</AuthButton>
                 <RightAlignedLink to="/auth/login">로그인</RightAlignedLink>
                 <SocialDivider/>
-                <SocialRegister/>
+                <SocialLogin/>
             </AuthContent>
         );
     }
