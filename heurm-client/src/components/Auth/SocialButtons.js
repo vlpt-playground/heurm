@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import FacebookIcon from 'react-icons/lib/io/social-facebook';
 import GoogleIcon from 'react-icons/lib/io/social-google';
-import { shadow } from 'lib/styleUtils';
+import { shadow, media } from 'lib/styleUtils';
 
 const Wrapper = styled.div`
     margin-top: 1rem;
@@ -33,6 +33,8 @@ const SocialButton = styled.div`
     }
 
     background: white;
+
+
 
     ${props => props.facebook && `
         border: 2px solid ${oc.blue[6]};
@@ -67,17 +69,25 @@ const SocialButton = styled.div`
         font-size: 1.6rem;
         margin-right: 1rem;
     }
+
+    ${media.tablet`
+        font-size: 1rem;
+        svg {
+            font-size: 1.4rem;
+            margin-right: 0.5rem;
+        }
+    `}
 `;
 
 const SocialButtons = ({onSocialLogin}) => (
     <Wrapper>
         <SocialButton facebook onClick={()=>onSocialLogin('facebook')}>
             <FacebookIcon/>
-            페이스북 로그인
+            페이스북
         </SocialButton>
         <SocialButton google onClick={()=>onSocialLogin('google')}>
             <GoogleIcon/>
-            구글 로그인
+            구글
         </SocialButton>
     </Wrapper>
 );

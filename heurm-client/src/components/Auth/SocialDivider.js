@@ -14,7 +14,7 @@ const Or = styled.div`
 
 const SocialDivider = () => (
     <Wrapper>
-        <Or>또는</Or>
+        <Or>또는 소셜계정으로 로그인</Or>
     </Wrapper>
 );
 
