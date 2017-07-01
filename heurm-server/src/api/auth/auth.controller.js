@@ -168,7 +168,21 @@ exports.socialLogin = async (ctx) => {
         ctx.throw(500, e);
     }
 
-    // TODO: 계정정보는 없지만 동일한 이메일 있는 경우에 해당 계정에 소셜 계정 연동
+    if(!account && profile.email) {
+        // 계정정보는 없지만, 소셜 계정에서 이메일이 있는 경우엔, 동일한 이메일로 가입한 계정이 있는지 조사
+        try {
+            account = await Account.findByEmail(profile.email);
+            if(account) {
+                account.social[provider] = {
+                    id: profile.id,
+                    accessToken
+                };
+                await account.save();
+            }
+        } catch (e) {
+            ctx.throw(500, e);
+        }
+    }
 
     if(!account) {
         ctx.body = null;
