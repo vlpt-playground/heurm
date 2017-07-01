@@ -8,3 +8,6 @@ export const localLogin = ({email, password}) => axios.post('/api/auth/login/loc
 
 export const checkStatus = () => axios.get('/api/auth/check');
 export const logout = () => axios.post('/api/auth/logout');
+
+export const socialLogin = ({provider, accessToken}) => axios.post(`/api/auth/login/${provider}`, { accessToken });
+export const socialRegister = ({provider, accessToken, username}) => axios.post(`/api/auth/register/${provider}`, { accessToken, username });
