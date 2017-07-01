@@ -22,6 +22,8 @@ const SET_ERROR = 'auth/SET_ERROR'; // 오류 설정
 const TOGGLE_ANIMATE = 'auth/TOGGLE_ANIMATE'; // 애니메이션 토글
 
 const PROVIDER_LOGIN = 'auth/PROVIDER_LOGIN'; // 페이스북 혹은 구글에 로그인 시도, 액세스 토큰을 받아옴
+const SOCIAL_LOGIN = 'auth/SOCIAL_LOGIN'; // 소셜 로그인
+const SOCIAL_REGISTER = 'auth/SOCIAL_REGISTEER'; // 소셜 회원가입
 
 
 export const changeInput = createAction(CHANGE_INPUT); //  { form, name, value }
@@ -40,6 +42,9 @@ export const toggleAnimation = createAction(TOGGLE_ANIMATE);
 
 // 두번째 파라미터는 payload 생성 함수, 세번째 파라미터는 meta 생성함수
 export const providerLogin = createAction(PROVIDER_LOGIN, (provider) => social[provider](), provider => provider);
+
+export const socialLogin = createAction(SOCIAL_LOGIN, AuthAPI.socialLogin); // { provider, accessToken }
+export const socialRegister = createAction(SOCIAL_REGISTER, AuthAPI.socialRegister); // { provider, accessToken, username }
 
 
 const initialState = Map({
@@ -115,5 +120,20 @@ export default handleActions({
             const { payload, meta } = action; // payload: 토큰, meta: 프로바이더 명
             return state.update('social', social => social.set('accessToken', payload).set('provider', meta));
         }
+    }),
+    ...pender({
+        type: SOCIAL_LOGIN,
+        onSuccess: (state, action) => {
+            if(action.payload.status === 204) {
+                // 회원가입되지 않은 계정
+                return state.setIn(['social', 'registered'], false); 
+            }
+            return state.set('result', Map(action.payload.data))
+                        .setIn(['social', 'unregistered']);
+        }
+    }),
+    ...pender({
+        type: SOCIAL_REGISTER,
+        onSuccess: (state, action) => state.set('result', Map(action.payload.data))
     })
 }, initialState);
