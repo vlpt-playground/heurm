@@ -71,6 +71,28 @@ Account.statics.localRegister = function({ username, email, password }) {
     return account.save();
 };
 
+Account.statics.socialRegister = function({provider, profile, accessToken, username}) {
+    const account = new this();
+
+    const { email, id, thumbnail } = profile;
+
+    account.email = email || `${id}@no-email.com`; // 이메일이 없으면 임시 이메일 설정
+
+    // 프로필 설정
+    account.profile = {
+        username, 
+        thumbnail
+    };
+
+    // 소셜계정 정보 설정
+    account.social[provider] = {
+        accessToken,
+        id
+    };
+
+    return account.save();
+};
+
 Account.methods.validatePassword = function(password) {
     // 함수로 전달받은 password 의 해시값과, 데이터에 담겨있는 해시값과 비교를 합니다.
     const hashed = hash(password);
