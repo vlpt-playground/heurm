@@ -187,3 +187,81 @@ exports.socialLogin = async (ctx) => {
         ctx.throw(500, e);
     }
 };
+
+// 소셜 회원가입
+exports.socialRegister = async (ctx) => {
+    // 스키마 검증
+    const schema = Joi.object().keys({
+        username: Joi.string().alphanum().min(4).max(15).required(),
+        accessToken: Joi.string().required()
+    });
+
+    const result = Joi.validate(ctx.request.body, schema);
+
+    if(result.error) {
+        ctx.status = 400; // Bad Request;
+        return;
+    }
+
+    const { provider } = ctx.params;
+    const { accessToken, username } = ctx.request.body;
+
+    // 아이디 중복 확인
+    try {
+        const usernameExists = await Account.findByUsername(username);
+        if(usernameExists) {
+            ctx.status = 409; // Conflict
+            ctx.body = { message: 'duplicated username' };
+        }
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+    
+    // 프로필 가져오기
+    let profile = null;
+    try {
+        profile = await social[provider].getProfile(accessToken);
+    } catch (e) {
+        ctx.status = 403;
+        return;
+    }
+
+    let account = null;
+    try {
+        account = await Account.findByProviderId(provider, profile.id);
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+
+
+    if(account) {
+        // 계정이 이미 존재함
+        ctx.status = 409; // Conflict
+        ctx.body = { message: 'already registered' };
+        return;
+    }
+
+
+    // 회원가입
+    try {
+        account = await Account.socialRegister({
+            provider,
+            profile,
+            accessToken,
+            username
+        });
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+
+    try {
+        const token = await account.generateToken();
+        ctx.cookies.set('access_token', token, {
+            maxAge: 1000 * 60 * 60 * 24 * 7,
+            httpOnly: true
+        });
+        ctx.body = account.profile;
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+};
