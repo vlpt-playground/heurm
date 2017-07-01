@@ -69,13 +69,13 @@ const SocialButton = styled.div`
     }
 `;
 
-const SocialButtons = () => (
+const SocialButtons = ({onSocialLogin}) => (
     <Wrapper>
-        <SocialButton facebook>
+        <SocialButton facebook onClick={()=>onSocialLogin('facebook')}>
             <FacebookIcon/>
             페이스북 로그인
         </SocialButton>
-        <SocialButton google>
+        <SocialButton google onClick={()=>onSocialLogin('google')}>
             <GoogleIcon/>
             구글 로그인
         </SocialButton>
