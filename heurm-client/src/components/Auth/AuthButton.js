@@ -21,7 +21,7 @@ const Wrapper = styled.div`
 
     &:hover {
         background: ${oc.teal[5]};
-        ${shadow(0)}
+        ${shadow(1)}
     }
 
     &:active {
