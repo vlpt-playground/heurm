@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const Account = require('models/Account');
+const social = require('lib/social');
 
 // 로컬 회원가입
 exports.localRegister = async (ctx) => {
@@ -131,4 +132,58 @@ exports.check = (ctx) => {
     }
 
     ctx.body = user.profile;
+};
+
+// 소셜 로그인
+exports.socialLogin = async (ctx) => {
+    // 스키마 검증
+    const schema = Joi.object().keys({
+        accessToken: Joi.string().required()
+    });
+
+    const result = Joi.validate(ctx.request.body, schema);
+
+    if(result.error) {
+        ctx.status = 400;
+        return;
+    }
+
+    const { provider } = ctx.params;
+    const { accessToken } = ctx.request.body;
+
+    let profile = null;
+    try {
+        profile = await social[provider].getProfile(accessToken);
+    } catch (e) {
+        // 소셜 로그인 에러
+        ctx.status = 403; // Forbidden
+        return;
+    }
+
+    // 가입했는지 체크
+    let account = null;
+    try {
+        account = await Account.findByProfileId(provider, profile.id);
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+
+    // TODO: 계정정보는 없지만 동일한 이메일 있는 경우에 해당 계정에 소셜 계정 연동
+
+    if(!account) {
+        ctx.body = null;
+        ctx.status = 204; // No Content (가입되지 않았음을 의미, 에러는 아님)
+        return;
+    }
+
+    try {
+        const token = await account.generateToken();
+        ctx.cookies.set('access_token', token, {
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+            httpOnly: true
+        });
+        ctx.body = account.profile;
+    } catch (e) {
+        ctx.throw(500, e);
+    }
 };
