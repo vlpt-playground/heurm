@@ -129,7 +129,7 @@ export default handleActions({
                 return state.setIn(['social', 'registered'], false); 
             }
             return state.set('result', Map(action.payload.data))
-                        .setIn(['social', 'unregistered']);
+                        .setIn(['social', 'registered'], true);
         }
     }),
     ...pender({
