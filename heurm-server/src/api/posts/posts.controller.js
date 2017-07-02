@@ -1,6 +1,7 @@
 const Account = require('models/Account');
 const Post = require('models/Post');
 const Joi = require('joi');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.write = async (ctx) => {
     const { user } = ctx.request;
@@ -53,6 +54,12 @@ exports.write = async (ctx) => {
 
 exports.list = async (ctx) => {
     const { cursor, username } = ctx.query; // URL 쿼리에서 cursor 와 username 값을 읽는다
+
+    // ObjectId 검증
+    if(cursor && !ObjectId.isValid(cursor)) {
+        ctx.status = 400; // Bad Request
+        return;    
+    }
 
     let posts = null;
     try {
