@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PageWrapper } from 'components/Base';
 import { WritePostContainer } from 'containers/Home';
-import PostList from 'components/Shared/PostList';
+import PostListContainer from 'containers/Shared/PostListContainer';
 
 
 class Home extends Component {
@@ -9,7 +9,7 @@ class Home extends Component {
         return (
             <PageWrapper responsive>
                 <WritePostContainer/>
-                <PostList/>
+                <PostListContainer/>
             </PageWrapper>
         );
     }

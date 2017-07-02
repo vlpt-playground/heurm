@@ -1,7 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import oc from 'open-color';
-import PropTypes from 'prop-types';
 import Masonry from 'react-masonry-component';
 import Post from './Post';
 
@@ -13,17 +11,7 @@ const Wrapper = styled.div`
 const PostList = () => (
     <Wrapper>
         <Masonry options={{gutter: 16}}>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
+
         </Masonry>
     </Wrapper>
 );
