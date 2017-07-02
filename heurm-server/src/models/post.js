@@ -21,4 +21,20 @@ const Post = new Schema({
     }
 });
 
+Post.statics.write = function({count, username, content}) {
+    const post = new this({
+        count, username, content
+    });
+
+    return post.save();
+};
+
+Post.statics.list = function({cursor, username}) {
+    // TODO: cursor 와 username 값에 따라 다른 쿼리 설정
+    
+    return this.find()
+        .sort({_id: -1}) // _id 역순
+        .limit(10); // 10개 제한
+};
+
 module.exports = mongoose.model('Post', Post);
