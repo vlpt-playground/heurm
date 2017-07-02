@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import { shadow } from 'lib/styleUtils';
 import Textarea from 'react-textarea-autosize';
-
+import Progress from './Progress';
 
 const Wrapper = styled.div`
     width: 768px;
@@ -31,6 +31,7 @@ const StyledTextarea = styled(Textarea)`
 const WritePost = ({children, onChange, value}) => (
     <Wrapper>
         <StyledTextarea minRows={3} maxRows={10} placeholder={`의식의 흐름대로 당신의 생각을 적어보세요.\n5초이상 아무것도 입력하지 않으면 자동으로 포스팅됩니다.`}/>
+        <Progress/>
     </Wrapper>
 );
 
