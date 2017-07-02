@@ -52,14 +52,19 @@ exports.write = async (ctx) => {
 };
 
 exports.list = async (ctx) => {
+    const { cursor, username } = ctx.query; // URL 쿼리에서 cursor 와 username 값을 읽는다
+
     let posts = null;
     try {
-        posts = await Post.list({}); // 나중에 cursor / username 값을 파라미터로 넣어줘야함
+        posts = await Post.list({ cursor, username });
     } catch (e) {
         ctx.throw(500, e);
     }
 
+    const next = posts.length === 10 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[9]._id}` : null;
+
     ctx.body = {
+        next,
         data: posts
     };
 };
