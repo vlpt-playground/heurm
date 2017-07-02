@@ -34,7 +34,7 @@ const StyledTextarea = styled(Textarea)`
     `}
 `;
 
-const WritePost = ({children, onChange, onPost, value}) => (
+const WritePost = ({children, onChange, onPost, value, textareaRef}) => (
     <Wrapper>
         <StyledTextarea 
             minRows={5} 
@@ -43,6 +43,7 @@ const WritePost = ({children, onChange, onPost, value}) => (
             onChange={onChange} 
             value={value}
             onPaste={e=>e.preventDefault()}
+            inputRef={textareaRef}
         />
         <Progress value={value} onPost={onPost}/>
     </Wrapper>

@@ -7,6 +7,7 @@ import * as homeActions from 'redux/modules/home';
 import { toast } from 'react-toastify';
 
 class WritePostContainer extends Component {
+
     handleChange = (e) => {
         const { HomeActions } = this.props;
         HomeActions.changeWritePostInput(e.target.value);
@@ -27,12 +28,17 @@ class WritePostContainer extends Component {
             return toast(message('최대 1000자까지 입력 할 수 있습니다.'), { type: 'error' });
         }
 
+        
+        this.textarea.blur();
+
         try {
             await HomeActions.writePost(value);
             toast(message('생각이 작성되었습니다.'), { type: 'success' })
         } catch (e) {
             toast(message('오류가 발생했습니다.'), { type: 'error' })
         }
+
+        this.textarea.focus();
     }
 
     render() {
@@ -41,7 +47,7 @@ class WritePostContainer extends Component {
 
 
         return (
-            <WritePost onChange={handleChange} onPost={handlePost} value={value}/>
+            <WritePost onChange={handleChange} onPost={handlePost} value={value} textareaRef={ref=>this.textarea=ref}/>
         );
     }
 }
