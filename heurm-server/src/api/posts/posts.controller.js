@@ -2,6 +2,7 @@ const Account = require('models/Account');
 const Post = require('models/Post');
 const Joi = require('joi');
 const ObjectId = require('mongoose').Types.ObjectId;
+const dispatcher = require('lib/dispatcher');
 
 exports.write = async (ctx) => {
     const { user } = ctx.request;
@@ -50,6 +51,7 @@ exports.write = async (ctx) => {
     }
 
     ctx.body = post;
+    dispatcher.emit('NEW_POST', {type: 'NEW_POST', payload: post});
 };
 
 exports.list = async (ctx) => {
