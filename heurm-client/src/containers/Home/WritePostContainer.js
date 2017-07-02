@@ -12,9 +12,8 @@ class WritePostContainer extends Component {
     }
 
     handlePost = () => {
-        const { HomeActions } = this.props;
-        HomeActions.changeWritePostInput('');
-        console.log('posted!');
+        const { HomeActions, value } = this.props;
+        HomeActions.writePost(value);
     }
 
     render() {
