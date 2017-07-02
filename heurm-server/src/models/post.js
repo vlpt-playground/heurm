@@ -41,7 +41,7 @@ Post.statics.list = function({cursor, username}) {
 
     return this.find(query)
         .sort({_id: -1}) // _id 역순
-        .limit(10); // 10개 제한
+        .limit(20); // 20개 제한
 };
 
 module.exports = mongoose.model('Post', Post);
