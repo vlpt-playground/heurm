@@ -51,7 +51,7 @@ exports.write = async (ctx) => {
     }
 
     ctx.body = post;
-    dispatcher.emit('NEW_POST', {type: 'NEW_POST', payload: post});
+    dispatcher.emit('new_post', {type: 'posts/RECEIVE_NEW_POST', payload: post});
 };
 
 exports.list = async (ctx) => {

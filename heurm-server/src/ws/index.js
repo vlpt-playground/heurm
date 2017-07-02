@@ -5,7 +5,7 @@ const dispatcher = require('lib/dispatcher');
 
 const connections = [];
 
-dispatcher.on('NEW_POST', post => {
+dispatcher.on('new_post', post => {
     connections.forEach(socket => {
         socket.send(JSON.stringify(post));
     });
