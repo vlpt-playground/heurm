@@ -15,7 +15,7 @@ class WritePostContainer extends Component {
     handlePost = async () => {
         const { HomeActions, value } = this.props;
 
-        const message = (message) => (<div style={{fontSize: '1.25rem'}}>{message}</div>);
+        const message = (message) => (<div style={{fontSize: '1.1rem'}}>{message}</div>);
 
         if(value.length < 5) {
             HomeActions.changeWritePostInput('');

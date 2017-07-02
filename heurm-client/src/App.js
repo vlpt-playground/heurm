@@ -37,7 +37,7 @@ class App extends Component {
                 <HeaderContainer/>
                 <Route exact path="/" component={Home}/>
                 <Route path="/auth" component={Auth}/>
-                <ToastContainer style={{zIndex: 20}} hideProgressBar={true}/>
+                <ToastContainer style={{zIndex: 20}} hideProgressBar={true} position="bottom-right"/>
             </div>
         );
     }
