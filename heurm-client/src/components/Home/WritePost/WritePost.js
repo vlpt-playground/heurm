@@ -28,10 +28,17 @@ const StyledTextarea = styled(Textarea)`
     }
 `;
 
-const WritePost = ({children, onChange, value}) => (
+const WritePost = ({children, onChange, onPost, value}) => (
     <Wrapper>
-        <StyledTextarea minRows={3} maxRows={10} placeholder={`의식의 흐름대로 당신의 생각을 적어보세요.\n5초이상 아무것도 입력하지 않으면 자동으로 포스팅됩니다.`}/>
-        <Progress/>
+        <StyledTextarea 
+            minRows={5} 
+            maxRows={10} 
+            placeholder={`의식의 흐름대로 당신의 생각을 적어보세요.\n잠시라도 입력을 멈추면 자동으로 포스팅됩니다.`} 
+            onChange={onChange} 
+            value={value}
+            onPaste={e=>e.preventDefault()}
+        />
+        <Progress value={value} onPost={onPost}/>
     </Wrapper>
 );
 

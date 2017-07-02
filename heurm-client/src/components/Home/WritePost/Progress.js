@@ -9,7 +9,7 @@ const Wrapper = styled.div`
     left: 0px;
     bottom: 0px;
     width: ${props => props.percentage + '%'};
-    ${props => props.percentage !== 0 && `transition: all 5s ease-in-out;`}
+    ${props => props.percentage !== 0 && `transition: all 1s ease-in-out;`}
 `;
 
 class Progress extends Component {
@@ -18,16 +18,38 @@ class Progress extends Component {
     }
 
     timeoutId = null
-    start = null
 
     componentDidMount() {
-        this.setState({
-            percentage: 100
-        });
-        setTimeout(() => {
-            console.log('done');
-        }, 5000);
+
     }
+
+    handlePost = () => {
+        const { onPost } = this.props;
+        onPost();
+    }
+
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            percentage: 0
+        });
+
+        if(nextProps.value === '') {
+            clearTimeout(this.timeoutId);
+            return;
+        }
+
+        setTimeout(() => {
+            this.setState({
+                percentage: 100
+            });
+        }, 0);
+        
+        clearTimeout(this.timeoutId);
+        this.timeoutId = setTimeout(this.handlePost, 1000)
+    }
+    
+
+    
 
     render() {
         const { percentage } = this.state;
