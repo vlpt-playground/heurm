@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-import PropTypes from 'prop-types';
 
 import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
