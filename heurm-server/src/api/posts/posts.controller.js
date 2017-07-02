@@ -68,7 +68,7 @@ exports.list = async (ctx) => {
         ctx.throw(500, e);
     }
 
-    const next = posts.length === 10 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[9]._id}` : null;
+    const next = posts.length === 20 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[19]._id}` : null;
 
     ctx.body = {
         next,
