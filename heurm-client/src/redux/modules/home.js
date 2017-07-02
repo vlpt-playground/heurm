@@ -25,6 +25,6 @@ export default handleActions({
     [CHANGE_WRITE_POST_INPUT]: (state, action) => state.setIn(['writePost', 'value'], action.payload),
     ...pender({
         type: WRITE_POST,
-        onPending: (state, action) => state.setIn(['writePost', ''])
+        onPending: (state, action) => state.setIn(['writePost', 'value'], '')
     })
 }, initialState);
