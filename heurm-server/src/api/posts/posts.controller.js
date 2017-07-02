@@ -52,5 +52,14 @@ exports.write = async (ctx) => {
 };
 
 exports.list = async (ctx) => {
-    ctx.body = 'list';
+    let posts = null;
+    try {
+        posts = await Post.list({}); // 나중에 cursor / username 값을 파라미터로 넣어줘야함
+    } catch (e) {
+        ctx.throw(500, e);
+    }
+
+    ctx.body = {
+        data: posts
+    };
 };
