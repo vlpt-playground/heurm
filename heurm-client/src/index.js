@@ -6,8 +6,12 @@ import './index.css';
 import configureStore from 'redux/configureStore';
 import { AppContainer } from 'react-hot-loader';
 import 'react-toastify/dist/ReactToastify.min.css' 
+import socket from 'lib/socket';
 
 const store = configureStore();
+
+socket.initialize(store);
+socket.connect('ws://localhost:4000/ws');
 
 const render = Component => {
     ReactDOM.render(

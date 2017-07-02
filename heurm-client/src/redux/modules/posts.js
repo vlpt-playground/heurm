@@ -7,6 +7,7 @@ import { pender } from 'redux-pender';
 const LOAD_POST = 'posts/LOAD_POST'; // 포스트 리스트 초기 로딩
 const PREFETCH_POST = 'posts/PREFETCH_POST'; // 포스트 미리로딩
 const SHOW_PREFETCHED_POST = 'posts/SHOW_PREFETCHED_POST'; // 미리 로딩된 포스트 화면에 보여주기
+const RECEIVE_NEW_POST = 'posts/RECEIVE_NEW_POST'; // 새 포스트를 받아온다
 
 export const loadPost = createAction(LOAD_POST, PostsAPI.list);
 export const prefetchPost = createAction(PREFETCH_POST, PostsAPI.next); // URL
@@ -40,5 +41,8 @@ export default handleActions({
 
         return state.update('data', data => data.concat(nextData))
                     .set('nextData', List());
+    },
+    [RECEIVE_NEW_POST]: (state, action) => {
+        return state.update('data', data => data.unshift(fromJS(action.payload)));
     }
 }, initialState);
