@@ -30,9 +30,16 @@ Post.statics.write = function({count, username, content}) {
 };
 
 Post.statics.list = function({cursor, username}) {
-    // TODO: cursor 와 username 값에 따라 다른 쿼리 설정
-    
-    return this.find()
+    // 파라미터의 존재유무에 따라 다른 쿼리를 만든다.
+    // Node 에선 아직 객체에서 ... 을 사용 할 수 없기 때문에, Object.assign 을 통하여 객체를 합침
+
+    const query = Object.assign(
+        { },
+        cursor ? { _id: { $lt: cursor } } : {},
+        username ? { username } : {}
+    );
+
+    return this.find(query)
         .sort({_id: -1}) // _id 역순
         .limit(10); // 10개 제한
 };
