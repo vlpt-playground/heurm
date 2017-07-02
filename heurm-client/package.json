@@ -45,6 +45,7 @@
     "react-onclickoutside": "^6.1.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
+    "react-textarea-autosize": "^5.0.7",
     "redux": "^3.7.1",
     "redux-actions": "^2.0.3",
     "redux-pender": "^1.0.24",
