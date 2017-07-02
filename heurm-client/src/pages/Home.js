@@ -4,7 +4,7 @@ import { PageWrapper } from 'components/Base';
 class Home extends Component {
     render() {
         return (
-            <PageWrapper>
+            <PageWrapper responsive>
                 Home
             </PageWrapper>
         );
