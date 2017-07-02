@@ -8,6 +8,8 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as userActions from 'redux/modules/user';
 
+import { ToastContainer } from 'react-toastify';
+
 class App extends Component {
 
 
@@ -35,6 +37,7 @@ class App extends Component {
                 <HeaderContainer/>
                 <Route exact path="/" component={Home}/>
                 <Route path="/auth" component={Auth}/>
+                <ToastContainer style={{zIndex: 20}} hideProgressBar={true}/>
             </div>
         );
     }

@@ -5,6 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import './index.css';
 import configureStore from 'redux/configureStore';
 import { AppContainer } from 'react-hot-loader';
+import 'react-toastify/dist/ReactToastify.min.css' 
 
 const store = configureStore();
 
