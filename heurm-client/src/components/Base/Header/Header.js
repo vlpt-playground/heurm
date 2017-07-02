@@ -36,7 +36,7 @@ const HeaderContents = styled.div`
         width: 992px;
     `}
 
-    ${media.tablet`
+    ${media.desktop`
         width: 100%;
     `}
 `;
