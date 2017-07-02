@@ -8,12 +8,19 @@ const Wrapper = styled.div`
     margin-top: 1rem;
 `;
 
-const PostList = () => (
-    <Wrapper>
-        <Masonry options={{gutter: 16}}>
-
-        </Masonry>
-    </Wrapper>
-);
+const PostList = ({posts}) => {
+    const postList = posts.map(
+        (post) => (
+            <Post key={post.get('_id')} post={post}/>
+        )
+    )
+    return (
+        <Wrapper>
+            <Masonry options={{gutter: 16}}>
+                {postList}
+            </Masonry>
+        </Wrapper>
+    );
+}
 
 export default PostList;
