@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
 import PostFooter from './PostFooter';
+import CommentBlock from './CommentBlock';
 import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
@@ -104,6 +105,7 @@ const Post = ({post, index, onToggleLike}) => {
                 {content}
             </Content>
             <PostFooter likesCount={likesCount} liked={liked} comments={comments} onToggleLike={toggleLike}/>
+            <CommentBlock/>
         </Wrapper>
     )
 }
