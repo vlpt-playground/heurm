@@ -66,7 +66,11 @@ class PostListContainer extends Component {
         } else {
             PostsActions.likePost({postId, index});
         }
-        
+    }
+
+    handleToggleComments = (index) => {
+        const { PostsActions } = this.props;
+        PostsActions.toggleComments(index);
     }
 
     componentDidMount() {
@@ -76,10 +80,10 @@ class PostListContainer extends Component {
     
     render() {
         const { data } = this.props;
-        const { handleToggleLike } = this;
+        const { handleToggleLike, handleToggleComments } = this;
 
         return (
-            <PostList posts={data} onToggleLike={handleToggleLike}/>
+            <PostList posts={data} onToggleLike={handleToggleLike} onToggleComments={handleToggleComments}/>
         );
     }
 }

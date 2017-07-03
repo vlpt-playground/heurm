@@ -27,12 +27,12 @@ const Input = styled.input`
     }
 `
 
-const CommentBlock = ({visible}) => visible && (
+const CommentBlock = ({visible}) => visible ? (
     <Wrapper>
         <InputWrapper>
             <Input/>
         </InputWrapper>
     </Wrapper>
-);
+) : null;
 
 export default CommentBlock;

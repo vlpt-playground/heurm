@@ -8,10 +8,10 @@ const Wrapper = styled.div`
     margin-top: 1rem;
 `;
 
-const PostList = ({posts, onToggleLike}) => {
+const PostList = ({posts, onToggleLike, onToggleComments}) => {
     const postList = posts.map(
         (post, index) => (
-            <Post key={post.get('_id')} post={post} index={index} onToggleLike={onToggleLike}/>
+            <Post key={post.get('_id')} post={post} index={index} onToggleLike={onToggleLike} onToggleComments={onToggleComments}/>
         )
     )
     return (

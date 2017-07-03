@@ -72,7 +72,7 @@ const Content = styled.div`
 
 
 
-const Post = ({post, index, onToggleLike}) => {
+const Post = ({post, index, onToggleLike, onToggleComments}) => {
     
     const {
         count,
@@ -82,6 +82,7 @@ const Post = ({post, index, onToggleLike}) => {
         likesCount,
         createdAt,
         liked,
+        showComments,
         _id
     } = post.toJS();
 
@@ -91,6 +92,10 @@ const Post = ({post, index, onToggleLike}) => {
             postId: _id,
             liked
         });
+    }
+
+    function toggleComments() {
+        onToggleComments(index);
     }
 
     return (
@@ -104,8 +109,8 @@ const Post = ({post, index, onToggleLike}) => {
             <Content>
                 {content}
             </Content>
-            <PostFooter likesCount={likesCount} liked={liked} comments={comments} onToggleLike={toggleLike}/>
-            <CommentBlock/>
+            <PostFooter likesCount={likesCount} liked={liked} comments={comments} onToggleLike={toggleLike} onToggleComments={toggleComments}/>
+            <CommentBlock visible={showComments}/>
         </Wrapper>
     )
 }

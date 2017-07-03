@@ -10,12 +10,14 @@ const SHOW_PREFETCHED_POST = 'posts/SHOW_PREFETCHED_POST'; // 미리 로딩된 �
 const RECEIVE_NEW_POST = 'posts/RECEIVE_NEW_POST'; // 새 포스트를 받아온다
 const LIKE_POST = 'posts/LIKE_POST'; // 포스트 좋아요
 const UNLIKE_POST = 'posts/UNLIKE_POST'; // 포스트 좋아요 취소
+const TOGGLE_COMMENTS = 'posts/TOGGLE_COMMENTS'; // 코멘트 토글
 
 export const loadPost = createAction(LOAD_POST, PostsAPI.list);
 export const prefetchPost = createAction(PREFETCH_POST, PostsAPI.next); // URL
 export const showPrefetchedPost = createAction(SHOW_PREFETCHED_POST);
 export const likePost = createAction(LIKE_POST, ({postId}) => PostsAPI.like(postId), ({index}) => index); // {postId,index} index 를 메타 값으로 설정
 export const unlikePost = createAction(UNLIKE_POST, ({postId}) => PostsAPI.unlike(postId), ({index}) => index); // {postId,index} index 를 메타 값으로 설정
+export const toggleComments = createAction(TOGGLE_COMMENTS); // index
 
 const initialState = Map({
     next: '',
@@ -72,5 +74,6 @@ export default handleActions({
         },
         // 요청 끝나면 실 서버값으로 설정
         onSuccess: (state, action) => state.setIn(['data', action.meta, 'likesCount'], action.payload.data.likesCount) 
-    })
+    }),
+    [TOGGLE_COMMENTS]: (state, action) => state.updateIn(['data', action.payload], post => post.set('showComments', !post.get('showComments')))
 }, initialState);

@@ -64,14 +64,14 @@ const Comments = styled.div`
     }
 `
 
-const PostFooter = ({liked, likesCount=0, comments=[], onToggleLike, onCommentClick}) => (
+const PostFooter = ({liked, likesCount=0, comments=[], onToggleLike, onToggleComments}) => (
     <Wrapper>
         <Likes active={liked}>
             <HeartIcon onClick={onToggleLike}/>
             <span>좋아요 {likesCount}개</span>
         </Likes>
         <Comments>
-            <CommentIcon/>
+            <CommentIcon onClick={onToggleComments}/>
             <span>덧글 {comments.length}개</span>
         </Comments>
     </Wrapper>
