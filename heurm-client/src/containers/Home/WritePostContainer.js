@@ -16,6 +16,12 @@ class WritePostContainer extends Component {
     handlePost = async () => {
         const { HomeActions, value } = this.props;
 
+        // 포커스 재설정 (공백화 되면서 한글 잔상 남는 버그)
+        this.textarea.blur();
+        setTimeout(() => {
+            this.textarea.focus();
+        },50);
+
         const message = (message) => (<div style={{fontSize: '1.1rem'}}>{message}</div>);
 
         if(value.length < 5) {
@@ -28,9 +34,6 @@ class WritePostContainer extends Component {
             return toast(message('최대 1000자까지 입력 할 수 있습니다.'), { type: 'error' });
         }
 
-        
-        this.textarea.blur();
-
         try {
             await HomeActions.writePost(value);
             toast(message('생각이 작성되었습니다.'), { type: 'success' })
@@ -38,7 +41,7 @@ class WritePostContainer extends Component {
             toast(message('오류가 발생했습니다.'), { type: 'error' })
         }
 
-        this.textarea.focus();
+        
     }
 
     render() {
