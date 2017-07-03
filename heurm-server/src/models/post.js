@@ -52,7 +52,7 @@ Post.statics.list = function({cursor, username, self}) {
         createdAt: 1
     } : {};
 
-    return this.find(query, self)
+    return this.find(query, projection)
         .sort({_id: -1}) // _id 역순
         .limit(20)
         .lean()
