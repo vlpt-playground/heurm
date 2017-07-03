@@ -30,7 +30,7 @@ class PostListContainer extends Component {
         const { PostsActions, next } = this.props;
         
         PostsActions.showPrefetchedPost(); // 미리 불러왔던걸 보여준 다음에
-        
+
         if(next === this.prev || !next) return; // 이전에 했던 요청과 동일하면 요청하지 않는다.
         this.prev = next;
 
@@ -59,6 +59,16 @@ class PostListContainer extends Component {
         }
     }
 
+    handleToggleLike = ({postId, index, liked}) => {
+        const { PostsActions } = this.props;
+        if(liked) {
+            PostsActions.unlikePost({postId, index});
+        } else {
+            PostsActions.likePost({postId, index});
+        }
+        
+    }
+
     componentDidMount() {
         this.load();
         window.addEventListener('scroll', this.handleScroll);
@@ -66,9 +76,10 @@ class PostListContainer extends Component {
     
     render() {
         const { data } = this.props;
+        const { handleToggleLike } = this;
 
         return (
-            <PostList posts={data}/>
+            <PostList posts={data} onToggleLike={handleToggleLike}/>
         );
     }
 }
