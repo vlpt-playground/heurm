@@ -29,7 +29,7 @@ Post.statics.write = function({count, username, content}) {
     return post.save();
 };
 
-Post.statics.list = function({cursor, username}) {
+Post.statics.list = function({cursor, username, self}) {
     // 파라미터의 존재유무에 따라 다른 쿼리를 만든다.
     // Node 에선 아직 객체에서 ... 을 사용 할 수 없기 때문에, Object.assign 을 통하여 객체를 합침
 
@@ -39,9 +39,24 @@ Post.statics.list = function({cursor, username}) {
         username ? { username } : {}
     );
 
-    return this.find(query)
+    // self 가 주어지면, 좋아요 했는지 안했는지 체크
+    const projection = self ? {
+        count: 1,
+        username: 1,
+        content: 1,
+        comments: 1,
+        likes: {
+            '$elemMatch': { '$eq': self }
+        },
+        likesCount: 1,
+        createdAt: 1
+    } : {};
+
+    return this.find(query, self)
         .sort({_id: -1}) // _id 역순
-        .limit(20); // 20개 제한
+        .limit(20)
+        .lean()
+        .exec(); // 20개 제한
 };
 
 Post.statics.like = function({_id, username}) {
