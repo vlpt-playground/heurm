@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-
+import PostFooter from './PostFooter';
 import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
@@ -79,7 +79,8 @@ const Post = ({post}) => {
         content,
         comments,
         likesCount,
-        createdAt
+        createdAt,
+        liked
     } = post.toJS();
 
     return (
@@ -93,6 +94,7 @@ const Post = ({post}) => {
             <Content>
                 {content}
             </Content>
+            <PostFooter likesCount={likesCount} liked={liked} comments={comments}/>
         </Wrapper>
     )
 }
