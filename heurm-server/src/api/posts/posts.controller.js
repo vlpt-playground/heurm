@@ -55,6 +55,11 @@ exports.write = async (ctx) => {
         ctx.throw(500, e);
     }
 
+    // like 관련 기본값 설정
+    post = post.toJSON();
+    delete post.likes;
+    post.liked = false;
+
     ctx.body = post;
     dispatcher.emit('new_post', {type: 'posts/RECEIVE_NEW_POST', payload: post});
 };
