@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { PageWrapper } from 'components/Base';
 import { WritePostContainer } from 'containers/Home';
-import PostListContainer from 'containers/Shared/PostListContainer';
+import PostListContainer from 'containers/Shared/PostList/PostListContainer';
 import socket from 'lib/socket';
 
 

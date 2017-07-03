@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
 import PostFooter from './PostFooter';
-import CommentBlock from './CommentBlock';
+import CommentBlockContainer from 'containers/Shared/PostList/CommentBlockContainer';
 import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
@@ -110,7 +110,7 @@ const Post = ({post, index, onToggleLike, onToggleComments}) => {
                 {content}
             </Content>
             <PostFooter likesCount={likesCount} liked={liked} comments={comments} onToggleLike={toggleLike} onToggleComments={toggleComments}/>
-            <CommentBlock visible={showComments}/>
+            <CommentBlockContainer visible={showComments} index={index} post={post}/>
         </Wrapper>
     )
 }

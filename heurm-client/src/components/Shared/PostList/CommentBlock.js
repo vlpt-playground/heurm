@@ -8,7 +8,6 @@ const Wrapper = styled.div`
 `;
 
 const InputWrapper = styled.div`
-    
     padding: 0.75rem;
 `;
 
@@ -22,17 +21,16 @@ const Input = styled.input`
     padding-bottom: 0.25rem;
     border-bottom: 1px solid ${oc.gray[5]};
     &:focus {
-        border-bottom: 1
-        px solid ${oc.cyan[5]};
+        border-bottom: 1px solid ${oc.cyan[4]};
     }
 `
 
-const CommentBlock = ({visible}) => visible ? (
+const CommentBlock = () => (
     <Wrapper>
         <InputWrapper>
             <Input/>
         </InputWrapper>
     </Wrapper>
-) : null;
+);
 
 export default CommentBlock;

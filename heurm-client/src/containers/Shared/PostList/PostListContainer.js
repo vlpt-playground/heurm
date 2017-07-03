@@ -81,6 +81,7 @@ class PostListContainer extends Component {
     render() {
         const { data } = this.props;
         const { handleToggleLike, handleToggleComments } = this;
+        
 
         return (
             <PostList posts={data} onToggleLike={handleToggleLike} onToggleComments={handleToggleComments}/>
