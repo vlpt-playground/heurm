@@ -29,10 +29,12 @@ class PostListContainer extends Component {
     loadNext = async () => {
         const { PostsActions, next } = this.props;
         
+        PostsActions.showPrefetchedPost(); // 미리 불러왔던걸 보여준 다음에
+        
         if(next === this.prev || !next) return; // 이전에 했던 요청과 동일하면 요청하지 않는다.
         this.prev = next;
 
-        PostsActions.showPrefetchedPost(); // 미리 불러왔던걸 보여준 다음에
+        
         try {
             await PostsActions.prefetchPost(next);
         } catch (e) {

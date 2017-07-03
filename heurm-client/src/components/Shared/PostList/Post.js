@@ -65,7 +65,7 @@ const Content = styled.div`
     color: ${oc.gray[8]};
     font-weight:300;
     padding: 1rem;
-    word-break: break-all;
+    word-break: break-word;
     white-space: pre-wrap;
 `
 
