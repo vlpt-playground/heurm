@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 const Comment = new Schema({
     createdAt: { type: Date, default: Date.now },
     username: String, 
-    _user: Schema.Types.ObjectId,
     text: String
 });
 
