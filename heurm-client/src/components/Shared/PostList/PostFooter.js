@@ -8,6 +8,8 @@ import CommentIcon from 'react-icons/lib/io/chatbubble';
 
 const Wrapper = styled.div`
     padding: 1rem;
+    padding-bottom: 0.5rem;
+    padding-top: 0.5rem;
     border-top: 1px solid ${oc.gray[1]};
     display: flex;
 
