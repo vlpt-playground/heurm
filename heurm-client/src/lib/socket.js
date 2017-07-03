@@ -1,31 +1,44 @@
-export default (function() {
-    let store = null;
-    let socket = null;
-    let listen = false;
-
+export default (function socketHelper() {
+    let _store = null;
+    let _socket = null;
+    let _listen = false;
+    let _uri = null;
 
     const messageHandler = (message) => {
         const data = JSON.parse(message.data);
-        if(!listen) return;
-        store.dispatch(data);
+        if(!_listen) return;
+        _store.dispatch(data);
+    }
+
+    const disconnectHandler = () => {
+        console.log('reconnecting...');
+        setTimeout(() => {
+            connect(_uri);
+        }, 3000);
+    }
+
+    function connect(uri) {
+        _uri = uri;
+        _socket = new WebSocket(uri);
+        _socket.onmessage = messageHandler;
+        _socket.onopen = (event) => {
+            console.log('connected to ' + uri);
+        }
+        _socket.onclose = disconnectHandler;
     }
     
     return {
         connect: (uri) => {
-            socket = new WebSocket(uri);
-            socket.onmessage = messageHandler;
-            socket.onopen = (event) => {
-                console.log('connected to ' + uri);
-            }
+            connect(uri);
         },
-        initialize: (s) => {
-            store = s;
+        initialize: (store) => {
+            _store = store;
         },
         listen: () => {
-            listen = true;
+            _listen = true;
         },
         unlisten: () => {
-            listen = false;
+            _listen = false;
         }
     }
 })();
