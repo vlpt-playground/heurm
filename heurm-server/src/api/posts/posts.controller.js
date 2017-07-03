@@ -68,17 +68,30 @@ exports.list = async (ctx) => {
         return;    
     }
 
+    const { user } = ctx.request;
+    const self = user ? user.username : null;
+
+    
     let posts = null;
     try {
-        posts = await Post.list({ cursor, username });
+        posts = await Post.list({ cursor, username, self });
     } catch (e) {
         ctx.throw(500, e);
     }
 
     const next = posts.length === 20 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[19]._id}` : null;
+    
+    // 좋아요 했는지 확인
+    function checkLikedPosts(posts) {
+        return posts.map((post) => {
+            const checked = Object.assign(post, { liked: user !== null && post.likes[0] === user.profile.username }); 
+            delete checked.likes; // likes key 제거
+            return checked;
+        });
+    }
 
     ctx.body = {
         next,
-        data: posts
+        data: checkLikedPosts(posts)
     };
 };
