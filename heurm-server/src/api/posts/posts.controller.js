@@ -21,7 +21,7 @@ exports.write = async (ctx) => {
         ctx.throw(500, e);
     }
     
-    const count = account.thoughtCount;
+    const count = account.thoughtCount + 1;
 
     // 스키마 검증하기
     const schema = Joi.object().keys({
