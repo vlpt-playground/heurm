@@ -79,4 +79,14 @@ Post.statics.unlike = function({_id, username}) {
     });
 };
 
+Post.methods.pushComment = function({
+    username, text
+}) {
+    this.comments.push({
+        username, text
+    });
+    return this.save();
+};
+
+
 module.exports = mongoose.model('Post', Post);
