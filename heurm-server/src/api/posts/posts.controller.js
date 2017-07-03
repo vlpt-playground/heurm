@@ -20,6 +20,11 @@ exports.write = async (ctx) => {
     } catch (e) {
         ctx.throw(500, e);
     }
+
+    if(!account) {
+        ctx.status = 403; // Forbidden
+        return;
+    }
     
     const count = account.thoughtCount + 1;
 
