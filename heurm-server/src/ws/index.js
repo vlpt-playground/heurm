@@ -2,30 +2,31 @@ const Router = require('koa-router');
 
 const ws = new Router();
 const dispatcher = require('lib/dispatcher');
+const shortid = require('shortid');
+const channels = require('lib/channels');
 
-const connections = [];
+function logSocket(message) {
+    console.log(`[SOCKET] ${message}`);
+}
+
+const general = channels.create('general');
 
 dispatcher.on('new_post', post => {
-    connections.forEach(socket => {
-        try {
-            socket.send(JSON.stringify(post));
-        } catch(e) {
-            if(e.message === 'not opened') {
-                socket.close();
-            }
-        }
-    });
+    general.broadcast(post);
 });
 
 ws.get('/ws', (ctx, next) => {
-    connections.push(ctx.websocket);
-    const index = connections.length - 1;
-    console.log('Client #' + index + ' has connected');
-    
+    const socket = ctx.websocket;
+    const id = shortid.generate();
+
+    socket.id = id;
+
+    general.enter(socket);
+    logSocket(`User ${id} is connected to server`);
 
     ctx.websocket.on('close', () => {
-        connections.splice(index, 1);
-        console.log('Client #' + index + ' has disconnected');
+        general.leave(socket);
+        console.log(`[SOCKET] ${id} is disconnected from server`);    
     });
 });
 
