@@ -105,7 +105,7 @@ export default handleActions({
     ...pender({
         type: COMMENT,
         onPending: (state, action) => {
-            return state.setIn(['comments', action.payload.postId, 'value'], '');
+            return state.setIn(['comments', action.meta, 'value'], '');
         },
         onSuccess: (state, action) => {
             const index = state.get('data').findIndex((post) => post.get('_id') === action.meta);

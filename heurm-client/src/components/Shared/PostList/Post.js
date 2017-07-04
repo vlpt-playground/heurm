@@ -84,7 +84,6 @@ const Post = ({post, onToggleLike, onToggleComments, onRelayout}) => {
         likesCount,
         createdAt,
         liked,
-        showComments,
         _id
     } = post.toJS();
 

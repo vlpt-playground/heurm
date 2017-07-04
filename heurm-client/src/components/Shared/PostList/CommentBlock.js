@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-import PropTypes from 'prop-types';
+
 
 const Wrapper = styled.div`
     background: ${oc.gray[0]};
@@ -25,10 +25,10 @@ const Input = styled.input`
     }
 `
 
-const CommentBlock = ({onChange, value}) => (
+const CommentBlock = ({onChange, onKeyPress, value}) => (
     <Wrapper>
         <InputWrapper>
-            <Input value={value} onChange={onChange}/>
+            <Input value={value} onChange={onChange} onKeyPress={onKeyPress}/>
         </InputWrapper>
     </Wrapper>
 );

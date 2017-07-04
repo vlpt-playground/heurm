@@ -17,7 +17,17 @@ class CommentBlockContainer extends Component {
     }
 
     handleKeyPress = (e) => {
-        console.log(e.key);
+        if(e.key === 'Enter') {
+            this.comment();
+        }
+    }
+
+    comment = () => {
+        const { PostsActions, post, value } = this.props;
+        PostsActions.comment({
+            postId: post.get('_id'),
+            text: value
+        });
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -28,15 +38,13 @@ class CommentBlockContainer extends Component {
     
     render() {
         const { visible, value } = this.props;
-        const { handleChange } = this;
+        const { handleChange, handleKeyPress } = this;
         
 
         if(!visible) return null;
-        const notNullValue = value || '';
-
 
         return (
-            <CommentBlock value={notNullValue} onChange={handleChange}/>
+            <CommentBlock value={value} onChange={handleChange} onKeyPress={handleKeyPress}/>
         );
     }
 }
@@ -44,7 +52,7 @@ class CommentBlockContainer extends Component {
 export default connect(
     (state, ownProps) => ({
         visible: state.posts.getIn(['comments', ownProps.post.get('_id'), 'visible']),
-        value: state.posts.getIn(['comments', ownProps.post.get('_id'), 'value'])
+        value: state.posts.getIn(['comments', ownProps.post.get('_id'), 'value']) || ''
     }),
     (dispatch) => ({
         PostsActions: bindActionCreators(postsActions, dispatch)
