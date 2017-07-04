@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as baseActions from 'redux/modules/base';
 import * as userActions from 'redux/modules/user';
+import { PropTypes } from 'prop-types';
+
 
 import storage from 'lib/storage';
 
@@ -11,9 +13,17 @@ import onClickOutside from 'react-onclickoutside';
 
 class UserMenuContainer extends Component {
 
-    handleClickOutside = (e) => {
+    static contextTypes = {
+        router: PropTypes.object
+    }
+
+    hideMe = () => {
         const { BaseActions } = this.props;
         BaseActions.setUserMenuVisibility(false);
+    }
+
+    handleClickOutside = (e) => {
+        this.hideMe();
     }
 
     handleLogout = async () => {
@@ -29,9 +39,17 @@ class UserMenuContainer extends Component {
         window.location.href = '/';
     }
 
+    handleMeHeurmClick = () => {
+        const { router } = this.context;
+        const { username } = this.props;
+
+        router.history.push(`/@${username}`);
+        this.hideMe();
+    }
+
     render() {
         const { visible, username } = this.props;
-        const { handleLogout } = this;
+        const { handleLogout, handleMeHeurmClick } = this;
 
         
         if(!visible) {
@@ -41,7 +59,7 @@ class UserMenuContainer extends Component {
         return (
             <UserMenu>
                 <Username username={username}/>
-                <UserMenuItem>나의 흐름</UserMenuItem>
+                <UserMenuItem onClick={handleMeHeurmClick}>나의 흐름</UserMenuItem>
                 <UserMenuItem>설정</UserMenuItem>
                 <UserMenuItem onClick={handleLogout}>로그아웃</UserMenuItem>
             </UserMenu>
