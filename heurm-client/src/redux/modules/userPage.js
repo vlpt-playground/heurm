@@ -4,12 +4,12 @@ import { Map, fromJS } from 'immutable';
 import { pender } from 'redux-pender';
 import * as UsersAPI from 'lib/api/users';
 
-const GET_PROFILE = 'userPage/GET_PROFILE';
+const GET_USER_INFO = 'userPage/GET_USER_INFO';
 
-export const getProfile = createAction(GET_PROFILE, UsersAPI.getProfile);
+export const getUserInfo = createAction(GET_USER_INFO, UsersAPI.getUserInfo);
 
 const initialState = Map({
-    profile: Map({
+    info: Map({
         profile: Map({ 
             thumbnail: null,
             username: null
@@ -21,7 +21,7 @@ const initialState = Map({
 // reducer
 export default handleActions({
     ...pender({
-        type: GET_PROFILE,
-        onSuccess: (state, action) => state.set('profile', fromJS(action.payload.data))
+        type: GET_USER_INFO,
+        onSuccess: (state, action) => state.set('info', fromJS(action.payload.data))
     })
 }, initialState);
