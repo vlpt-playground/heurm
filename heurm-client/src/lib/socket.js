@@ -1,3 +1,13 @@
+const parseJSON = (str) => {
+    let parsed = null;
+    try {
+        parsed = JSON.parse(str);
+    } catch (e) {
+        return null;
+    }
+    return parsed;
+}
+
 export default (function socketHelper() {
     let _store = null;
     let _socket = null;
@@ -5,8 +15,9 @@ export default (function socketHelper() {
     let _uri = null;
 
     const messageHandler = (message) => {
-        const data = JSON.parse(message.data);
+        const data = parseJSON(message.data);
         if(!_listen) return;
+        if(typeof data !== 'object' || !data || !data.type) return;
         _store.dispatch(data);
     }
 
