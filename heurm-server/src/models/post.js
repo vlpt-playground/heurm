@@ -81,7 +81,7 @@ Post.statics.unlike = function({_id, username}) {
 Post.methods.pushComment = function({
     username, text
 }) {
-    this.comments.push({
+    this.comments.unshift({
         username, text
     });
     return this.save();
