@@ -46,8 +46,9 @@ class WritePostContainer extends Component {
 
     render() {
         const { handleChange, handlePost } = this;
-        const { value } = this.props;
+        const { value, logged } = this.props;
 
+        if(!logged) return null;
 
         return (
             <WritePost onChange={handleChange} onPost={handlePost} value={value} textareaRef={ref=>this.textarea=ref}/>
@@ -57,7 +58,8 @@ class WritePostContainer extends Component {
 
 export default connect(
     (state) => ({
-        value: state.home.getIn(['writePost', 'value'])
+        value: state.home.getIn(['writePost', 'value']),
+        logged: state.user.get('logged')
     }),
     (dispatch) => ({
         HomeActions: bindActionCreators(homeActions, dispatch)

@@ -38,20 +38,21 @@ class CommentBlockContainer extends Component {
     }
     
     render() {
-        const { visible, value, post, onRelayout } = this.props;
+        const { visible, value, post, onRelayout, logged } = this.props;
         const { handleChange, handleKeyPress } = this;
         
 
         if(!visible) return null;
 
         return (
-            <CommentBlock value={value} onChange={handleChange} onKeyPress={handleKeyPress} comments={post.get('comments')} onRelayout={onRelayout}/>
+            <CommentBlock logged={logged} value={value} onChange={handleChange} onKeyPress={handleKeyPress} comments={post.get('comments')} onRelayout={onRelayout}/>
         );
     }
 }
 
 export default connect(
     (state, ownProps) => ({
+        logged: state.user.get('logged'),
         visible: state.posts.getIn(['comments', ownProps.post.get('_id'), 'visible']),
         value: state.posts.getIn(['comments', ownProps.post.get('_id'), 'value']) || ''
     }),

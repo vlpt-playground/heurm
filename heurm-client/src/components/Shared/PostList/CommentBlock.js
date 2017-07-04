@@ -23,13 +23,17 @@ const Input = styled.input`
     &:focus {
         border-bottom: 1px solid ${oc.cyan[4]};
     }
+    ::placeholder {
+        text-align: center;
+        color: ${oc.gray[5]};
+    }
 `;
 
-const CommentBlock = ({onChange, onKeyPress, onRelayout, value, comments}) => {
+const CommentBlock = ({onChange, onKeyPress, onRelayout, value, comments, logged}) => {
     return (
         <Wrapper>
             <InputWrapper>
-                <Input value={value} onChange={onChange} onKeyPress={onKeyPress}/>
+                <Input value={value} onChange={onChange} onKeyPress={onKeyPress} disabled={!logged} placeholder={!logged && '로그인 후 이용하세요'}/>
             </InputWrapper>
             <CommentList comments={comments} onRelayout={onRelayout}/>
         </Wrapper>
