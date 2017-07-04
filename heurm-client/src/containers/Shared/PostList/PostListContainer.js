@@ -10,10 +10,10 @@ class PostListContainer extends Component {
 
     // 포스트 목록 초기로딩
     load = async () => {
-        const { PostsActions } = this.props;
+        const { PostsActions, username } = this.props;
 
         try {
-            await PostsActions.loadPost();
+            await PostsActions.loadPost(username || '');
             const { next } = this.props;
 
             if(next) {
@@ -77,6 +77,13 @@ class PostListContainer extends Component {
         this.load();
         window.addEventListener('scroll', this.handleScroll);
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.username !== this.props.username) {
+            this.load(); // 유저네임이 변경되면 새로 로딩
+        }
+    }
+    
     
     render() {
         const { data } = this.props;

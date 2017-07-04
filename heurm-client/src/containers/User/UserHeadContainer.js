@@ -20,11 +20,19 @@ class UserHeadContainer extends Component {
     componentDidMount() {
         this.getUserInfo();
     }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(prevProps.username !== this.props.username) {
+            this.getUserInfo(); // 유저네임이 변경되면 새로 로딩
+        }
+    }
+
     
     render() {
-        const { username, thumbnail, thoughtCount, pending } = this.props;
+        const { username, thumbnail, thoughtCount, fetched } = this.props;
         
-        if(pending) return null; 
+        if(!fetched) return null; 
+    
         
         return (
             <UserHead username={username} thumbnail={thumbnail} thoughtCount={thoughtCount}/>
@@ -36,7 +44,7 @@ export default connect(
     (state) => ({
         thumbnail: state.userPage.getIn(['info', 'profile', 'thumbnail']),
         thoughtCount: state.userPage.getIn(['info', 'thoughtCount']),
-        pending: state.pender.pending['userPage/GET_USER_INFO']
+        fetched: state.pender.success['userPage/GET_USER_INFO']
     }),
     (dispatch) => ({
         UserPageActions: bindActionCreators(userPageActions, dispatch)

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
+import { Link } from 'react-router-dom';
 
 const CommentWrapper = styled.div`
     font-size: 0.9rem;
@@ -9,10 +10,11 @@ const CommentWrapper = styled.div`
     }
 `;
 
-const User = styled.span`
+const User = styled(Link)`
     font-weight: 500;
     margin-right: 0.25rem;
     color: ${oc.gray[9]};
+    text-decoration: none;
 `;
 
 const Text = styled.span`
@@ -21,7 +23,7 @@ const Text = styled.span`
 
 const Comment = ({username, text}) => (
     <CommentWrapper>
-        <User>{username}</User>
+        <User to={`/@${username}`}>{username}</User>
         <Text>{text}</Text>
     </CommentWrapper>
 );

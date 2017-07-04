@@ -9,6 +9,7 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
 import { media, shadow } from 'lib/styleUtils';
 import scuize from 'lib/scuize';
+import { Link } from 'react-router-dom';
 
 
 const formatter = buildFormatter(koreanStrings);
@@ -45,10 +46,12 @@ const UserThumbnail = styled.div`
     border-radius: 50%;
 `;
 
-const Username = styled.div`
+const Username = styled(Link)`
     font-weight: 500;
     margin-left: 0.3rem;
     font-size: 0.9rem;
+    text-decoration: none;
+    color: ${oc.gray[8]};
 `;
 
 const Count = styled.div`
@@ -102,7 +105,7 @@ const Post = ({post, onToggleLike, onToggleComments, onRelayout}) => {
         <Wrapper>
             <PostHead>
                 <UserThumbnail image={`/api/users/${username}/thumbnail`}/>
-                <Username>{username}</Username>
+                <Username to={`/@${username}`}>{username}</Username>
                 <Count>#{count}번째 생각</Count>
                 <Time><TimeAgo date={createdAt} formatter={formatter}/></Time>
             </PostHead>

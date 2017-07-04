@@ -36,6 +36,7 @@ const initialState = Map({
 export default handleActions({
     ...pender({
         type: LOAD_POST,
+        onPending: (state, action) => state.set('data', List()).set('nextData', List()), // 리스트 비우기
         onSuccess: (state, action) => {
             const { next, data } = action.payload.data;
             return state.set('next', next)
