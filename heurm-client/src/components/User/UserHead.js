@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-import PropTypes from 'prop-types';
 
 const Wrapper = styled.div`
     display: flex;
@@ -24,7 +23,7 @@ const Username = styled.div`
     font-weight: 500;
 
     color: ${oc.gray[8]};
-`
+`;
 
 const Count = styled.div`
     font-weight: 300;
@@ -32,13 +31,11 @@ const Count = styled.div`
     b {
         font-weight: 500;
     }
-`
+`;
 
-
-
-const UserHead = ({image="/static/images/default_thumbnail.png", username="username", thoughtCount=150}) => (
+const UserHead = ({thumbnail, username, thoughtCount}) => (
     <Wrapper>
-        <Thumbnail image={image}/>
+        <Thumbnail image={thumbnail}/>
         <Username>{username}</Username>
         <Count>흐른 생각 <b>{thoughtCount}개</b></Count>
     </Wrapper>
