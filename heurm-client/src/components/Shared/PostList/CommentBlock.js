@@ -25,10 +25,10 @@ const Input = styled.input`
     }
 `
 
-const CommentBlock = () => (
+const CommentBlock = ({onChange, value}) => (
     <Wrapper>
         <InputWrapper>
-            <Input/>
+            <Input value={value} onChange={onChange}/>
         </InputWrapper>
     </Wrapper>
 );

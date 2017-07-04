@@ -59,18 +59,18 @@ class PostListContainer extends Component {
         }
     }
 
-    handleToggleLike = ({postId, index, liked}) => {
+    handleToggleLike = ({postId, liked}) => {
         const { PostsActions } = this.props;
         if(liked) {
-            PostsActions.unlikePost({postId, index});
+            PostsActions.unlikePost(postId);
         } else {
-            PostsActions.likePost({postId, index});
+            PostsActions.likePost(postId);
         }
     }
 
-    handleToggleComments = (index) => {
+    handleToggleComments = (postId) => {
         const { PostsActions } = this.props;
-        PostsActions.toggleComments(index);
+        PostsActions.toggleComments(postId);
     }
 
     componentDidMount() {

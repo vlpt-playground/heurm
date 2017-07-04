@@ -8,6 +8,8 @@ import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
 import { media, shadow } from 'lib/styleUtils';
+import scuize from 'lib/scuize';
+
 
 const formatter = buildFormatter(koreanStrings);
 
@@ -72,7 +74,7 @@ const Content = styled.div`
 
 
 
-const Post = ({post, index, onToggleLike, onToggleComments}) => {
+const Post = ({post, onToggleLike, onToggleComments, onRelayout}) => {
     
     const {
         count,
@@ -88,14 +90,13 @@ const Post = ({post, index, onToggleLike, onToggleComments}) => {
 
     function toggleLike() {
         onToggleLike({
-            index,
             postId: _id,
             liked
         });
     }
 
     function toggleComments() {
-        onToggleComments(index);
+        onToggleComments(_id);
     }
 
     return (
@@ -110,9 +111,11 @@ const Post = ({post, index, onToggleLike, onToggleComments}) => {
                 {content}
             </Content>
             <PostFooter likesCount={likesCount} liked={liked} comments={comments} onToggleLike={toggleLike} onToggleComments={toggleComments}/>
-            <CommentBlockContainer visible={showComments} index={index} post={post}/>
+            <CommentBlockContainer post={post} onRelayout={onRelayout}/>
         </Wrapper>
     )
 }
 
-export default Post;
+export default scuize(function(nextProps, nextState) {
+    return this.props.post !== nextProps.post;
+})(Post);
