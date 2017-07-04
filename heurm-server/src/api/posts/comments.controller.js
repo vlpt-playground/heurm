@@ -41,7 +41,7 @@ exports.comment = async (ctx) => {
     }
 
     try {
-        await post.pushComment({
+        await post.writeComment({
             username,
             text
         });

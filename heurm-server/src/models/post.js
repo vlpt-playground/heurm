@@ -78,7 +78,7 @@ Post.statics.unlike = function({_id, username}) {
     });
 };
 
-Post.methods.pushComment = function({
+Post.methods.writeComment = function({
     username, text
 }) {
     this.comments.unshift({
