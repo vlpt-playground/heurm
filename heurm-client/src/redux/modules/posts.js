@@ -109,7 +109,7 @@ export default handleActions({
         },
         onSuccess: (state, action) => {
             const index = state.get('data').findIndex((post) => post.get('_id') === action.meta);
-            return state.setIn(['data', index, 'comments'], action.payload.data);
+            return state.setIn(['data', index, 'comments'], fromJS(action.payload.data));
         }
     })
 }, initialState);

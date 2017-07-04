@@ -24,6 +24,7 @@ class CommentBlockContainer extends Component {
 
     comment = () => {
         const { PostsActions, post, value } = this.props;
+        if(value === '') return;
         PostsActions.comment({
             postId: post.get('_id'),
             text: value
@@ -37,14 +38,14 @@ class CommentBlockContainer extends Component {
     }
     
     render() {
-        const { visible, value } = this.props;
+        const { visible, value, post, onRelayout } = this.props;
         const { handleChange, handleKeyPress } = this;
         
 
         if(!visible) return null;
 
         return (
-            <CommentBlock value={value} onChange={handleChange} onKeyPress={handleKeyPress}/>
+            <CommentBlock value={value} onChange={handleChange} onKeyPress={handleKeyPress} comments={post.get('comments')} onRelayout={onRelayout}/>
         );
     }
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-
+import CommentList from './CommentList';
 
 const Wrapper = styled.div`
     background: ${oc.gray[0]};
@@ -23,14 +23,17 @@ const Input = styled.input`
     &:focus {
         border-bottom: 1px solid ${oc.cyan[4]};
     }
-`
+`;
 
-const CommentBlock = ({onChange, onKeyPress, value}) => (
-    <Wrapper>
-        <InputWrapper>
-            <Input value={value} onChange={onChange} onKeyPress={onKeyPress}/>
-        </InputWrapper>
-    </Wrapper>
-);
+const CommentBlock = ({onChange, onKeyPress, onRelayout, value, comments}) => {
+    return (
+        <Wrapper>
+            <InputWrapper>
+                <Input value={value} onChange={onChange} onKeyPress={onKeyPress}/>
+            </InputWrapper>
+            <CommentList comments={comments} onRelayout={onRelayout}/>
+        </Wrapper>
+    )
+}
 
 export default CommentBlock;
