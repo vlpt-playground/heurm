@@ -1,4 +1,4 @@
-const Account = require('models/Account');
+const Account = require('models/account');
 
 exports.getProfile = async (ctx) => {
     const { username } = ctx.params;
