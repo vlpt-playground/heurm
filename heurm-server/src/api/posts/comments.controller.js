@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const Post = require('models/Post');
+const Post = require('models/post');
 const {ObjectId} = require('mongoose').Types;
 
 exports.comment = async (ctx) => {

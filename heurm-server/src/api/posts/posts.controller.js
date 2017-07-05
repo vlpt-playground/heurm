@@ -1,5 +1,5 @@
-const Account = require('models/Account');
-const Post = require('models/Post');
+const Account = require('models/account');
+const Post = require('models/post');
 const Joi = require('joi');
 const ObjectId = require('mongoose').Types.ObjectId;
 const dispatcher = require('lib/dispatcher');
