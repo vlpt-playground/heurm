@@ -17,7 +17,7 @@ const Positioner = styled.div`
         left: 1rem;
         right: 1rem;
         transform: translateY(-50%);
-        @media (max-height: 600px) {
+        @media (max-height: 800px) {
             transform: none;
             top: 1rem;
             margin-bottom: 1rem;
