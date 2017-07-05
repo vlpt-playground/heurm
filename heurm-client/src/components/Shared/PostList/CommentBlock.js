@@ -33,7 +33,7 @@ const CommentBlock = ({onChange, onKeyPress, onRelayout, value, comments, logged
     return (
         <Wrapper>
             <InputWrapper>
-                <Input value={value} onChange={onChange} onKeyPress={onKeyPress} disabled={!logged} placeholder={!logged && '로그인 후 이용하세요'}/>
+                <Input value={value} onChange={onChange} onKeyPress={onKeyPress} disabled={!logged} placeholder={!logged ? '로그인 후 이용하세요' : ''}/>
             </InputWrapper>
             <CommentList comments={comments} onRelayout={onRelayout}/>
         </Wrapper>
