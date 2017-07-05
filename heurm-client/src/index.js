@@ -11,7 +11,12 @@ import socket from 'lib/socket';
 const store = configureStore();
 
 socket.initialize(store);
-socket.connect('ws://localhost:4000/ws');
+
+const socketURI = process.env.NODE_ENV === 'production' 
+                    ? ((window.location.protocol === "https:") ? "wss://" : "ws://") + window.location.host + "/ws"
+                    : 'ws://localhost:4000/ws';
+
+socket.connect(socketURI);
 
 const render = Component => {
     ReactDOM.render(
