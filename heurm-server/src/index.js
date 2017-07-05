@@ -16,9 +16,7 @@ const ws = require('./ws');
 
 const serve = require('koa-static');
 const path = require('path');
-// const socket = websockify(app);
-
-
+const fs = require('fs');
 
 mongoose.Promise = global.Promise; // Node 의 네이티브 Promise 사용
 // mongodb 연결
@@ -39,6 +37,12 @@ router.use('/api', api.routes()); // api 라우트를 /api 경로 하위 라우�
 app.use(router.routes()).use(router.allowedMethods());
 app.ws.use(ws.routes()).use(ws.allowedMethods());
 app.use(serve(path.resolve(__dirname, '../../heurm-client/build/')));
+
+const indexHtml = fs.readFileSync(path.resolve(__dirname, '../../heurm-client/build/index.html'), { encoding: 'utf8' });
+
+app.use(ctx => {
+    ctx.body = indexHtml;
+});
 
 app.listen(port, () => {
     console.log('heurm server is listening to port ' + port);
