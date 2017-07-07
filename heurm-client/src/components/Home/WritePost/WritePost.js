@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
-import { shadow } from 'lib/styleUtils';
+import { shadow, media } from 'lib/styleUtils';
 import Textarea from 'react-textarea-autosize';
 import Progress from './Progress';
 
@@ -12,6 +12,12 @@ const Wrapper = styled.div`
     background: ${oc.gray[7]};
     position: relative;
     ${shadow(1)}
+    ${media.desktop`
+        width: 736px;
+    `}
+    ${media.tablet`
+        width: 100%;
+    `}
 `;
 
 const StyledTextarea = styled(Textarea)`
@@ -26,6 +32,9 @@ const StyledTextarea = styled(Textarea)`
     ::placeholder {
         color: ${oc.gray[3]};
     }
+    ${media.tablet`
+        font-size: 1rem;
+    `}
 `;
 
 const WritePost = ({onChange, onPost, value}) => (
