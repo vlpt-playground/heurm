@@ -19,8 +19,9 @@ class PostListContainer extends Component {
     
 
     render() {
+        const { data } = this.props;
         return (
-            <PostList/>
+            <PostList posts={data}/>
         );
     }
 }

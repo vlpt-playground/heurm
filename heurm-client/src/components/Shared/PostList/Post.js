@@ -77,17 +77,26 @@ const Content = styled.div`
     white-space: pre-wrap;
 `;
 
-const Post = () =>{
+const Post = ({post}) =>{
+    const {
+        count,
+        username,
+        content,
+        comments,
+        likesCount,
+        createdAt
+    } = post.toJS();
+
     return (
         <Wrapper>
             <PostHead>
-                <UserThumbnail image={`/api/users/velopert/thumbnail`}/>
-                <Username>velopert</Username>
-                <Count>#1번째 생각</Count>
-                <Time><TimeAgo date={new Date()} formatter={formatter}/></Time>
+                <UserThumbnail image={`/api/users/${username}/thumbnail`}/>
+                <Username>{username}</Username>
+                <Count>#{count}번째 생각</Count>
+                <Time><TimeAgo date={createdAt} formatter={formatter}/></Time>
             </PostHead>
             <Content>
-                내용내용
+                {content}
             </Content>
         </Wrapper>
     )
