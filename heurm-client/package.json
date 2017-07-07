@@ -40,6 +40,8 @@
     "react-dom": "^15.6.1",
     "react-error-overlay": "^1.0.9",
     "react-hot-loader": "next",
+    "react-masonry-component": "^5.0.7",
+    "react-onclickoutside": "^6.1.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "react-textarea-autosize": "^5.0.7",
