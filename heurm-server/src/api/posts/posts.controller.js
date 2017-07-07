@@ -1,6 +1,7 @@
 const Account = require('models/account');
 const Post = require('models/post');
 const Joi = require('joi');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.write = async (ctx) => {
     /* 유저 검증하기 */
@@ -64,16 +65,26 @@ exports.write = async (ctx) => {
 };
 
 exports.list = async (ctx) => {
+    const { cursor, username } = ctx.query; // URL 쿼리에서 cursor 와 username 값을 읽는다
+    
+    // ObjectId 검증
+    if(cursor && !ObjectId.isValid(cursor)) {
+        ctx.status = 400; // Bad Request
+        return;    
+    }
+
     let posts = null;
     try {
-        posts = await Post.list({}); // 임시적으로 빈 객체를 전달해줍니다. 나중엔 파라미터들이 들어가게 됩니다.
+        posts = await Post.list({cursor, username}); // cursor, username 파라미터를 넣어줍니다
     } catch (e) {
         ctx.throw(500, e);
     }
 
     // 만약에 불러올 데이터가 20개라면, 그 다음 데이터들이 더 있을 수 있습니다.
     // 현재 불러온 데이터 중 가장 마지막 데이터를 기점으로 데이터를 추가적으로 로딩하는 API 의 주소를 만들어줍니다.
-    const next = posts.length === 20 ? `/api/posts/?cursor=${posts[19]._id}` : null;
+    // username 이 주어졌으면 username 도 포함시켜주어야합니다.
+    const next = posts.length === 20 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[19]._id}` : null;
+
 
     //  데이터와, 그 다음 데이터를 가져오는 API 주소를 응답합니다.
     ctx.body = {
