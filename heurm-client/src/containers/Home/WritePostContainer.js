@@ -12,9 +12,8 @@ class WritePostContainer extends Component {
     }
     handlePost = () => {
         // 게이지가 다 차면 실행되는 메소드
-        const { HomeActions } = this.props;
-        HomeActions.changeWritePostInput(''); // 인풋 초기화
-        console.log('posted!'); // 이 자리에서 나중에 API 호출
+        const { HomeActions, value } = this.props;
+        HomeActions.writePost(value);
     }
     render() {
         const { handleChange, handlePost } = this;
