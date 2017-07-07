@@ -3,13 +3,14 @@ import styled from 'styled-components';
 import oc from 'open-color';
 import { shadow } from 'lib/styleUtils';
 import Textarea from 'react-textarea-autosize';
-
+import Progress from './Progress';
 
 const Wrapper = styled.div`
     width: 768px;
     margin: 0 auto;
     padding: 1rem;
     background: ${oc.gray[7]};
+    position: relative;
     ${shadow(1)}
 `;
 
@@ -36,6 +37,7 @@ const WritePost = ({onChange, value}) => (
             value={value}
             onChange={onChange}
         />
+        <Progress/>
     </Wrapper>
 );
 
