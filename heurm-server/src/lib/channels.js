@@ -31,6 +31,9 @@ module.exports = (function() {
             const c = channel(name);
             channels[name] = c;
             return c;
+        },
+        remove: (name) => {
+            delete channels[name];
         }
     };
 })();
