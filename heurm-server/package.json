@@ -12,7 +12,8 @@
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
     "koa-websocket": "^4.0.0",
-    "mongoose": "^4.11.0"
+    "mongoose": "^4.11.0",
+    "redis": "^2.7.1"
   },
   "devDependencies": {
     "eslint": "^4.1.1",
