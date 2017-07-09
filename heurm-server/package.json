@@ -11,6 +11,7 @@
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
+    "koa-websocket": "^4.0.0",
     "mongoose": "^4.11.0"
   },
   "devDependencies": {
