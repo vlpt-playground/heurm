@@ -42,4 +42,25 @@ Post.statics.list = function({cursor, username, self}) {
         .limit(20) // 20개로 제한
         .exec();
 };
+
+Post.statics.like = function({_id, username}) {
+    return this.findByIdAndUpdate(_id, {
+        $inc: { likesCount: 1 }, // likesCount 를 1 더하고
+        $push: { likes: username }
+    }, {
+        new: true, // 이걸 해야 업데이트 된 데이터를 반환함
+        select: 'likesCount'
+    }).exec();
+};
+
+Post.statics.unlike = function({_id, username}) {
+    return this.findByIdAndUpdate(_id, {
+        $inc: { likesCount: -1 },
+        $pull: { likes: username }
+    }, {
+        new: true,
+        select: 'likesCount'
+    });
+};
+
 module.exports = mongoose.model('Post', Post);
