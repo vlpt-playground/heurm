@@ -13,6 +13,13 @@ class WritePostContainer extends Component {
         HomeActions.changeWritePostInput(e.target.value); // 인풋 값 설정
     }
     handlePost = async () => {
+        this.input.blur();
+        setTimeout(
+            () => {
+                this.input.focus();
+            }, 100
+        );
+
         // 게이지가 다 차면 실행되는 메소드
         const { HomeActions, value } = this.props;
 
@@ -46,6 +53,7 @@ class WritePostContainer extends Component {
                 value={value}
                 onChange={handleChange}
                 onPost={handlePost}
+                inputRef={(ref)=>this.input=ref}
             />
         );
     }
