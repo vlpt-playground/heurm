@@ -35,6 +35,8 @@ ws.get('/ws', (ctx, next) => {
         socket.ping();
         timeoutId = setTimeout(ping, 5000);
     };
+
+    ping();
 });
 
 module.exports = ws;
