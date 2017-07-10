@@ -4,6 +4,44 @@ const Joi = require('joi');
 const ObjectId = require('mongoose').Types.ObjectId;
 const dispatcher = require('lib/dispatcher');
 
+
+const redis = require('redis');
+const client = redis.createClient();
+
+const getCache = (key) => {
+    return new Promise((resolve, reject) => {
+        client.get(key, (err, data) => {
+            if(err) reject(err);
+            if(!data) resolve(null);
+            resolve(data);
+        });
+    });
+};
+
+const getThumbnail = async (username) => {
+    const key = `${username}:thumbnail`;
+    const thumbnail = await getCache(key);
+
+    if(thumbnail) {
+        return thumbnail;
+    }
+
+    let account;
+    try {
+        account = await Account.findByUsername(username);
+    } catch (e) {
+        throw(500, e);
+    }
+
+    if(!account) {
+        return null;
+    }
+
+    client.set(`${username}:thumbnail`, account.profile.thumbnail);
+    return account.profile.thumbnail;
+};
+
+
 exports.write = async (ctx) => {
     const { user } = ctx.request;
 
@@ -94,9 +132,21 @@ exports.list = async (ctx) => {
             return checked;
         });
     }
+    
+    const transformedData = checkLikedPosts(posts);
+
+    const promises = [];
+    for(let i = 0; i < posts.length; i++) {
+        const p = getThumbnail(transformedData[i].username).then(
+            thumbnail => { transformedData[i].thumbnail = thumbnail; }
+        );
+        promises.push(p);
+    }
+
+    await Promise.all(promises);
 
     ctx.body = {
         next,
-        data: checkLikedPosts(posts)
+        data: transformedData
     };
 };
