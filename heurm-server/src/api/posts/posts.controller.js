@@ -4,10 +4,10 @@ const Joi = require('joi');
 const ObjectId = require('mongoose').Types.ObjectId;
 const dispatcher = require('lib/dispatcher');
 
-
 const redis = require('redis');
 const client = redis.createClient();
 
+// Promise 기반 캐시 가져오기
 const getCache = (key) => {
     return new Promise((resolve, reject) => {
         client.get(key, (err, data) => {
@@ -18,12 +18,16 @@ const getCache = (key) => {
     });
 };
 
-const getThumbnail = async (username) => {
+// post 에 thumbnail 붙여주기
+const attachThumbnail = async (post) => {
+    const { username } = post;
+
     const key = `${username}:thumbnail`;
     const thumbnail = await getCache(key);
 
     if(thumbnail) {
-        return thumbnail;
+        post.thumbnail = thumbnail;
+        return post;
     }
 
     let account;
@@ -34,13 +38,14 @@ const getThumbnail = async (username) => {
     }
 
     if(!account) {
-        return null;
+        post.thumbnail = null;
+        return post;
     }
 
     client.set(`${username}:thumbnail`, account.profile.thumbnail);
-    return account.profile.thumbnail;
+    post.thumbnail = account.profile.thumbnail;
+    return post;
 };
-
 
 exports.write = async (ctx) => {
     const { user } = ctx.request;
@@ -122,31 +127,21 @@ exports.list = async (ctx) => {
         ctx.throw(500, e);
     }
 
-    const next = posts.length === 20 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[19]._id}` : null;
-    
     // 좋아요 했는지 확인
-    function checkLikedPosts(posts) {
-        return posts.map((post) => {
-            const checked = Object.assign(post, { liked: user !== null && post.likes[0] === user.profile.username }); 
-            delete checked.likes; // likes key 제거
-            return checked;
-        });
-    }
-    
-    const transformedData = checkLikedPosts(posts);
-
-    const promises = [];
-    for(let i = 0; i < posts.length; i++) {
-        const p = getThumbnail(transformedData[i].username).then(
-            thumbnail => { transformedData[i].thumbnail = thumbnail; }
-        );
-        promises.push(p);
+    function checkLiked(post) {
+        const checked = Object.assign(post, { liked: user !== null && post.likes[0] === user.profile.username }); 
+        delete checked.likes; // likes key 제거
+        return checked;
     }
 
-    await Promise.all(promises);
+    const next = posts.length === 20 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[19]._id}` : null;
+
+    const promises = posts.map(checkLiked).map(attachThumbnail);
+
+    posts = await Promise.all(promises);
 
     ctx.body = {
         next,
-        data: transformedData
+        data: posts
     };
 };
