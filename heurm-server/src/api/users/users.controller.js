@@ -1,7 +1,4 @@
 const Account = require('models/account');
-const redis = require('redis');
-
-const client = redis.createClient();
 
 exports.getProfile = async (ctx) => {
     const { username } = ctx.params;
@@ -24,25 +21,9 @@ exports.getProfile = async (ctx) => {
     };
 };
 
-const getCache = (key) => {
-    return new Promise((resolve, reject) => {
-        client.get(key, (err, data) => {
-            if(err) reject(err);
-            if(!data) resolve(null);
-            resolve(data);
-        });
-    });
-};
 
 exports.getThumbnail = async (ctx) => {
     const { username } = ctx.params;
-    const key = `${username}:thumbnail`;
-
-    const thumbnail = await getCache(key);
-
-    if(thumbnail) {
-        ctx.redirect(thumbnail);
-    }
 
     let account;
     try {
@@ -55,9 +36,7 @@ exports.getThumbnail = async (ctx) => {
         ctx.status = 404;
         return;
     }
-
-    client.set(`${username}:thumbnail`, account.profile.thumbnail);
-
+    ctx.set('Cache-Control', 'max-age=604800');
     ctx.redirect(account.profile.thumbnail);
 };
 
