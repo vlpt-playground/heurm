@@ -102,6 +102,7 @@ exports.write = async (ctx) => {
     post = post.toJSON();
     delete post.likes;
     post.liked = false;
+    post.thumbnail = user.profile.thumbnail;
 
     ctx.body = post;
     dispatcher.emit('new_post', {type: 'posts/RECEIVE_NEW_POST', payload: post});
