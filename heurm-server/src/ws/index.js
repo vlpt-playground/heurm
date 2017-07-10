@@ -18,6 +18,7 @@ dispatcher.on('new_post', post => {
 ws.get('/ws', (ctx, next) => {
     const socket = ctx.websocket;
     const id = shortid.generate();
+    let timeoutId = null;
 
     socket.id = id;
 
@@ -26,8 +27,14 @@ ws.get('/ws', (ctx, next) => {
 
     ctx.websocket.on('close', () => {
         general.leave(socket);
+        clearTimeout(timeoutId);
         console.log(`[SOCKET] ${id} is disconnected from server`);    
     });
+
+    const ping = () => {
+        socket.ping();
+        timeoutId = setTimeout(ping, 5000);
+    };
 });
 
 module.exports = ws;
