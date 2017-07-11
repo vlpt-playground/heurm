@@ -37,7 +37,20 @@ Post.statics.list = function({cursor, username, self}) {
         username ? { username } : { }
     );
 
-    return this.find(query)
+    // API 를 호출한 username (self) 값이 존재하면 likes 에 해당 username 이 있는지 체크
+    const projection = self ? {
+        count: 1,
+        username: 1,
+        content: 1,
+        comments: 1,
+        likes: {
+            '$elemMatch': { '$eq': self }
+        },
+        likesCount: 1,
+        createdAt: 1
+    } : { };
+
+    return this.find(query, projection)
         .sort({_id: -1}) // _id 역순
         .limit(20) // 20개로 제한
         .exec();

@@ -61,6 +61,11 @@ exports.write = async (ctx) => {
         ctx.throw(500, e);
     }
 
+    // post 에 liked 값 false 로 설정
+    post = post.toJSON();
+    delete post.likes;
+    post.liked = false;
+
     /* 포스트 정보 반환 */
     ctx.body = post;
 
@@ -79,10 +84,14 @@ exports.list = async (ctx) => {
         ctx.status = 400; // Bad Request
         return;    
     }
+    
+    // API 를 호출한 유저의 정보를 가져옵니다
+    const { user } = ctx.request;
+    const self = user ? user.username : null; // 로그인한 유저라면 username 값을 self 에 넣어줍니다
 
     let posts = null;
     try {
-        posts = await Post.list({cursor, username}); // cursor, username 파라미터를 넣어줍니다
+        posts = await Post.list({cursor, username, self}); 
     } catch (e) {
         ctx.throw(500, e);
     }
@@ -92,6 +101,21 @@ exports.list = async (ctx) => {
     // username 이 주어졌으면 username 도 포함시켜주어야합니다.
     const next = posts.length === 20 ? `/api/posts/?${username ? `username=${username}&` : ''}cursor=${posts[19]._id}` : null;
 
+
+    // 좋아요 했는지 확인
+    function checkLiked(post) {
+        // posts 에 스키마에 속하지 않은 값을 추가해주려면 toObject() 를 해주어야합니다.
+        // 혹은, 쿼리를 하게 될 떄 .lean().exec() 의 형식으로 해야합니다.
+        post = post.toObject(); 
+        // 비로그인 상태라면 false
+        // 배열에 아이템이 있다면, 자신의 아이디가 들어있다는 뜻이니 true
+        const checked = Object.assign(post, { liked: user !== null && post.likes.length > 0 }); 
+        delete checked.likes; // likes key 제거
+        return checked;
+    }
+
+    posts = posts.map(checkLiked); // map 을 통하여 각 포스트를 변형시켜줍니다
+    
 
     //  데이터와, 그 다음 데이터를 가져오는 API 주소를 응답합니다.
     ctx.body = {
