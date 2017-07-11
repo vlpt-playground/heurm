@@ -87,7 +87,8 @@ const Post = ({post, onToggleLike, onToggleComments, onRelayout}) => {
         likesCount,
         createdAt,
         liked,
-        _id
+        _id,
+        thumbnail
     } = post.toJS();
 
     function toggleLike() {
@@ -104,7 +105,7 @@ const Post = ({post, onToggleLike, onToggleComments, onRelayout}) => {
     return (
         <Wrapper>
             <PostHead>
-                <UserThumbnail image={`/api/users/${username}/thumbnail`}/>
+                <UserThumbnail image={thumbnail}/>
                 <Username to={`/@${username}`}>{username}</Username>
                 <Count>#{count}번째 생각</Count>
                 <Time><TimeAgo date={createdAt} formatter={formatter}/></Time>

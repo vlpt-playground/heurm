@@ -36,7 +36,7 @@ exports.getThumbnail = async (ctx) => {
         ctx.status = 404;
         return;
     }
-
+    ctx.set('Cache-Control', 'max-age=604800');
     ctx.redirect(account.profile.thumbnail);
 };
 
