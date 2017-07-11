@@ -34,7 +34,12 @@ const Likes = styled.div`
         }
     }
     ${props=>props.active && `
-        color: ${oc.pink[5]};
+        svg {
+            color: ${oc.pink[6]};
+            &:hover {
+                color: ${oc.pink[5]};
+            }
+        }
     `}
 `;
 
@@ -55,7 +60,7 @@ const Comments = styled.div`
 const PostFooter = ({liked, likesCount=0, comments=[], onToggleLike, onCommentClick}) => (
     <Wrapper>
         <Likes active={liked}>
-            <HeartIcon/>
+            <HeartIcon onClick={onToggleLike}/>
             <span>좋아요 {likesCount}개</span>
         </Likes>
         <Comments>

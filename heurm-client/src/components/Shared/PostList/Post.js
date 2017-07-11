@@ -79,15 +79,21 @@ const Content = styled.div`
     white-space: pre-wrap;
 `;
 
-const Post = ({post}) =>{
+const Post = ({post, onToggleLike}) =>{
     const {
+        _id,
         count,
         username,
         content,
-        comments,
         likesCount,
+        liked,
         createdAt
     } = post.toJS();
+
+    const toggleLike = () => onToggleLike({
+        postId: _id,
+        liked
+    });
 
     return (
         <Wrapper>
@@ -100,7 +106,7 @@ const Post = ({post}) =>{
             <Content>
                 {content}
             </Content>
-            <PostFooter/>
+            <PostFooter likesCount={likesCount} liked={liked} onToggleLike={toggleLike}/>
         </Wrapper>
     )
 }
