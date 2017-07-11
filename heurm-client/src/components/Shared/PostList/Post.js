@@ -7,6 +7,8 @@ import TimeAgo from 'react-timeago'
 import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
+import PostFooter from './PostFooter';
+
 import { media, shadow } from 'lib/styleUtils';
 
 const formatter = buildFormatter(koreanStrings); // 한글 형식으로 보여주기 위해 필요
@@ -98,6 +100,7 @@ const Post = ({post}) =>{
             <Content>
                 {content}
             </Content>
+            <PostFooter/>
         </Wrapper>
     )
 }
