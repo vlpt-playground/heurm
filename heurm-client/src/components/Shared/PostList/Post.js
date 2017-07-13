@@ -8,6 +8,8 @@ import koreanStrings from 'react-timeago/lib/language-strings/ko';
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 
 import PostFooter from './PostFooter';
+import CommentBlockContainer from 'containers/Shared/PostList/CommentBlockContainer';
+
 
 import { media, shadow } from 'lib/styleUtils';
 
@@ -107,6 +109,7 @@ const Post = ({post, onToggleLike}) =>{
                 {content}
             </Content>
             <PostFooter likesCount={likesCount} liked={liked} onToggleLike={toggleLike}/>
+            <CommentBlockContainer/>
         </Wrapper>
     )
 }
