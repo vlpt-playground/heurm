@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as postsActions from 'redux/modules/posts';
 import { toast } from 'react-toastify';
+import { setRelayoutHandler } from 'lib/withRelayout';
 
 class PostListContainer extends Component {
     prev = null
@@ -78,10 +79,15 @@ class PostListContainer extends Component {
         }
     }
 
+    handleRelayout = () => {
+        setTimeout(() => this.masonry.masonry.layout(), 0);
+    }
+
     componentDidMount() {
         // 컴포넌트가 마운트 됐을 때 호출 합니다.
         this.load();
         window.addEventListener('scroll', this.handleScroll);
+        setRelayoutHandler(this.handleRelayout);
     }
 
     componentWillUnmount() {
