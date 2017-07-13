@@ -59,6 +59,7 @@ class PostListContainer extends Component {
     handleCommentClick = (postId) => {
         const { PostsActions } = this.props;
         PostsActions.toggleComment(postId);
+        setTimeout(() => this.masonry.masonry.layout(), 0);
     }
 
 
@@ -97,6 +98,7 @@ class PostListContainer extends Component {
                 posts={data} 
                 onToggleLike={handleToggleLike}
                 onCommentClick={handleCommentClick}
+                masonryRef={ref => this.masonry = ref}
             />
         );
     }
