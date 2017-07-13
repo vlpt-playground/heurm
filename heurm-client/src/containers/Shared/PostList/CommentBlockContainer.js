@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import CommentBlock from 'components/Shared/PostList/CommentBlock';
+
 import { connect } from 'react-redux';
 import * as postsActions from 'redux/modules/posts';
 import { bindActionCreators } from 'redux';
@@ -34,7 +35,7 @@ class CommentBlockContainer extends Component {
     
 
     render() {
-        const { status } = this.props;
+        const { status, post } = this.props;
         const { visible, value } = status ? status.toJS() : { }; // status 가 존재하지 않는 경우를 위한 예외 케이스
         const { handleChange, handleKeyPress } = this;
 
@@ -45,6 +46,7 @@ class CommentBlockContainer extends Component {
                 value={value}
                 onChange={handleChange}
                 onKeyPress={handleKeyPress}
+                comments={post.get('comments')}
             />
         );
     }

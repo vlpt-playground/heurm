@@ -89,7 +89,8 @@ const Post = ({post, onToggleLike, onCommentClick}) =>{
         content,
         likesCount,
         liked,
-        createdAt
+        createdAt,
+        comments
     } = post.toJS();
 
     const toggleLike = () => onToggleLike({
@@ -110,7 +111,13 @@ const Post = ({post, onToggleLike, onCommentClick}) =>{
             <Content>
                 {content}
             </Content>
-            <PostFooter likesCount={likesCount} liked={liked} onToggleLike={toggleLike} onCommentClick={commentClick}/>
+            <PostFooter 
+                likesCount={likesCount} 
+                liked={liked} 
+                onToggleLike={toggleLike} 
+                onCommentClick={commentClick}
+                comments={comments}
+            />
             <CommentBlockContainer post={post}/>
         </Wrapper>
     )

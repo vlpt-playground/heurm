@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import oc from 'open-color';
+import CommentList from './CommentList';
 
 const Wrapper = styled.div`
     background: ${oc.gray[0]};
@@ -32,7 +33,7 @@ const Input = styled.input`
     }
 `
 
-const CommentBlock = ({onChange, onKeyPress, value}) => (
+const CommentBlock = ({onChange, onKeyPress, value, comments}) => (
     <Wrapper>
         <InputWrapper>
             <Input 
@@ -40,6 +41,7 @@ const CommentBlock = ({onChange, onKeyPress, value}) => (
                 onChange={onChange} 
                 onKeyPress={onKeyPress}
                 placeholder="덧글을 입력 후 [Enter] 를 눌러 작성하세요"/>
+            <CommentList comments={comments}/>
         </InputWrapper>
     </Wrapper>
 );
