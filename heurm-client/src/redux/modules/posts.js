@@ -12,6 +12,9 @@ const RECEIVE_NEW_POST = 'posts/RECEIVE_NEW_POST'; // 새 데이터 수신
 const LIKE_POST = 'posts/LIKE_POST'; // 포스트 좋아요
 const UNLIKE_POST = 'posts/UNLIKE_POST'; // 포스트 좋아요 취소
 
+const TOGGLE_COMMENT = 'posts/TOGGLE_COMMENT'; // 덧글 창 열고 닫기
+const CHANGE_COMMENT_INPUT = 'posts/CHANGE_COMMENT_INPUT'; // 덧글 인풋 수정
+
 export const loadPost = createAction(LOAD_POST, PostsAPI.list);
 export const prefetchPost = createAction(PREFETCH_POST, PostsAPI.next); // URL
 export const showPrefetchedPost = createAction(SHOW_PREFETCHED_POST);
@@ -19,10 +22,19 @@ export const showPrefetchedPost = createAction(SHOW_PREFETCHED_POST);
 export const likePost = createAction(LIKE_POST, PostsAPI.like, (payload) => payload); // postId 를 meta 값으로 설정
 export const unlikePost = createAction(UNLIKE_POST, PostsAPI.unlike, (payload) => payload); // postId 를 meta 값으로 설정
 
+export const toggleComment = createAction(TOGGLE_COMMENT); // postId
+export const changeCommentInput = createAction(CHANGE_COMMENT_INPUT); // { postId, value }
+
 const initialState = Map({
     next: '',
     data: List(),
-    nextData: List()
+    nextData: List(),
+    comments: Map({
+        _postId: Map({
+            visible: false,
+            value: ''
+        }) 
+    })
 });
 
 export default handleActions({
@@ -87,6 +99,26 @@ export default handleActions({
             const index = state.get('data').findIndex(post=>post.get('_id') === action.meta);
             return state.setIn(['data', index, 'likesCount'], action.payload.data.likesCount);
         }
-    })
+    }),
+
+    [TOGGLE_COMMENT]: (state, action) => {
+        // comments Map 에 해당 아이디가 존재하는지 확인
+        const comment = state.getIn(['comments', action.payload]);
+        if(comment) {
+            // 존재한다면 visible 값을 현재의 반대값으로 수정
+            return state.updateIn(['comments', action.payload], comment => comment.set('visible', !comment.get('visible')));
+        }
+        // 존재하지 않는 경우엔 comment 기본 상태를 정의해줌
+        return state.setIn(['comments', action.payload], Map({
+            visible: true,
+            value: ''
+        }));
+    },
+
+    [CHANGE_COMMENT_INPUT]: (state, action) => {
+        // 주어진 postId 의 덧글 인풋 값을 수정
+        const { postId, value } = action.payload;
+        return state.setIn(['comments', postId, 'value'], value);
+    }
     
 }, initialState);
