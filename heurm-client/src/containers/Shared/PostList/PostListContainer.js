@@ -56,6 +56,11 @@ class PostListContainer extends Component {
         }
     }
 
+    handleCommentClick = (postId) => {
+        const { PostsActions } = this.props;
+        PostsActions.toggleComment(postId);
+    }
+
 
     // 스크롤 리스너
     handleScroll = () => {
@@ -85,12 +90,13 @@ class PostListContainer extends Component {
 
     render() {
         const { data } = this.props;
-        const { handleToggleLike } = this;
+        const { handleToggleLike, handleCommentClick } = this;
 
         return (
             <PostList 
                 posts={data} 
                 onToggleLike={handleToggleLike}
+                onCommentClick={handleCommentClick}
             />
         );
     }
