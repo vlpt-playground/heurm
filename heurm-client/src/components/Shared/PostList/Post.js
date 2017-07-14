@@ -13,6 +13,8 @@ import CommentBlockContainer from 'containers/Shared/PostList/CommentBlockContai
 
 import { media, shadow } from 'lib/styleUtils';
 
+import { Link } from 'react-router-dom';
+
 const formatter = buildFormatter(koreanStrings); // 한글 형식으로 보여주기 위해 필요
 
 const Wrapper = styled.div`
@@ -51,10 +53,12 @@ const UserThumbnail = styled.div`
 `;
 
 // 유저네임을 띄워줍니다
-const Username = styled.div`
+const Username = styled(Link)`
     font-weight: 500;
     margin-left: 0.3rem;
     font-size: 0.9rem;
+    color: inherit;
+    text-decoration: none;    
 `;
 
 // 몇번째 생각인지 알려줍니다
@@ -104,7 +108,7 @@ const Post = ({post, onToggleLike, onCommentClick}) =>{
         <Wrapper>
             <PostHead>
                 <UserThumbnail image={`/api/users/${username}/thumbnail`}/>
-                <Username>{username}</Username>
+                <Username to={`/@${username}`}>{username}</Username>
                 <Count>#{count}번째 생각</Count>
                 <Time><TimeAgo date={createdAt} formatter={formatter}/></Time>
             </PostHead>
