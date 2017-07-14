@@ -11,10 +11,10 @@ class PostListContainer extends Component {
 
     // 포스트 목록 초기로딩
     load = async () => {
-        const { PostsActions } = this.props;
+        const { PostsActions, username } = this.props;
 
         try {
-            await PostsActions.loadPost();
+            await PostsActions.loadPost(username);
             const { next } = this.props;
 
             if(next) {
