@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import * as baseActions from 'redux/modules/base';
 import * as userActions from 'redux/modules/user';
-
+import PropTypes from 'prop-types';
 import storage from 'lib/storage';
 
 import onClickOutside from 'react-onclickoutside';
 
 class UserMenuContainer extends Component {
+
+    static contextTypes = {
+        router: PropTypes.object
+    }
 
     handleClickOutside = (e) => {
         const { BaseActions } = this.props;
@@ -29,9 +33,16 @@ class UserMenuContainer extends Component {
         window.location.href = '/';
     }
 
+    handleOpenMyHeurm = () => {
+        const { router } = this.context;
+        const { username, BaseActions } = this.props;
+        router.history.push(`/@${username}`);
+        BaseActions.setUserMenuVisibility(false);
+    }
+
     render() {
         const { visible, username } = this.props;
-        const { handleLogout } = this;
+        const { handleLogout, handleOpenMyHeurm  } = this;
 
         
         if(!visible) {
@@ -41,7 +52,7 @@ class UserMenuContainer extends Component {
         return (
             <UserMenu>
                 <Username username={username}/>
-                <UserMenuItem>나의 흐름</UserMenuItem>
+                <UserMenuItem onClick={handleOpenMyHeurm}>나의 흐름</UserMenuItem>
                 <UserMenuItem>설정</UserMenuItem>
                 <UserMenuItem onClick={handleLogout}>로그아웃</UserMenuItem>
             </UserMenu>
