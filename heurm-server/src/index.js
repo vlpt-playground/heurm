@@ -13,6 +13,10 @@ const mongoose = require('mongoose');
 const bodyParser = require('koa-bodyparser');
 const { jwtMiddleware } = require('lib/token');
 
+const serve = require('koa-static');
+const path = require('path');
+const fallback = require('koa-connect-history-api-fallback');
+
 
 
 mongoose.Promise = global.Promise; // Node 의 네이티브 Promise 사용
@@ -33,6 +37,12 @@ app.use(jwtMiddleware);
 router.use('/api', api.routes()); // api 라우트를 /api 경로 하위 라우트로 설정
 app.use(router.routes()).use(router.allowedMethods());
 app.ws.use(ws.routes()).use(ws.allowedMethods());
+
+
+app.use(fallback());
+app.use(serve(path.resolve(__dirname, '../../heurm-client/build/')));
+
+
 
 app.listen(port, () => {
     console.log('heurm server is listening to port ' + port);

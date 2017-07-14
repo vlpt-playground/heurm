@@ -10,7 +10,9 @@
     "jsonwebtoken": "^7.4.1",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
+    "koa-connect-history-api-fallback": "^0.3.1",
     "koa-router": "^7.2.1",
+    "koa-static": "^4.0.1",
     "koa-websocket": "^4.0.0",
     "mongoose": "^4.11.0",
     "redis": "^2.7.1"
