@@ -90,6 +90,14 @@ class PostListContainer extends Component {
         setRelayoutHandler(this.handleRelayout);
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        // username 이 변경되면 this.load 를 호출합니다
+        if(prevProps.username !== this.props.username) {
+            this.load();
+        }
+    }
+    
+
     componentWillUnmount() {
         // 컴포넌트가 언마운트 될 때에는 스크롤 이벤트리스너를 제거합니다
         window.removeEventListener('scroll', this.handleScroll);
