@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 // 기본적으로는 설정되지 않았다는 오류 메시지를 보여주고, setRelayoutHandler 를 통해서 설정을 해주어야합니다.
 let relayout = () => {
