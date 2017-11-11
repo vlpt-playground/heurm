@@ -27,6 +27,8 @@
   },
   "scripts": {
     "start": "cross-env NODE_PATH=src node src",
-    "start:dev": "cross-env NODE_PATH=src nodemon --watch src/ src/index.js"
+    "start:dev": "cross-env NODE_PATH=src nodemon --watch src/ src/index.js",
+    "deploy": "pm2 start deploy.config.json",
+    "reload": "pm2 reload deploy.config.json"
   }
 }
